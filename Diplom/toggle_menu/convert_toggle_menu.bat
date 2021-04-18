@@ -1,0 +1,1 @@
+pyuic5 -x toggle_menu.ui -o toggle_menu.py
