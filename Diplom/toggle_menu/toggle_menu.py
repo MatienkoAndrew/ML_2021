@@ -129,12 +129,12 @@ class Ui_MainWindow(object):
         self.btnFind.setFont(font)
         self.btnFind.setStyleSheet("QPushButton {\n"
 "    color: rgb(255, 255, 255);\n"
-"    background-color: rgb(255, 0, 0);\n"
+"    background-color:  rgb(85, 170, 255);\n"
 "    border: 0px solid;\n"
 "}\n"
 "\n"
 "QPushButton:hover {\n"
-"    background-color: rgb(85, 170, 255);\n"
+"    background-color: rgb(255, 0, 0);\n"
 "}")
         self.btnFind.setObjectName("btnFind")
         self.horizontalLayout_5.addWidget(self.btnFind)
@@ -208,6 +208,72 @@ class Ui_MainWindow(object):
         self.Btn_page_3.setObjectName("Btn_page_3")
         self.verticalLayout_4.addWidget(self.Btn_page_3)
         self.verticalLayout_3.addWidget(self.frame_top_menus, 0, QtCore.Qt.AlignTop)
+        self.comboBox = QtWidgets.QComboBox(self.frame_left_menu)
+        self.comboBox.setStyleSheet("/* The container must be positioned relative: */\n"
+"QComboBox {\n"
+"  position: relative;\n"
+"  font-family: Arial;\n"
+"  background-color: white;\n"
+"}\n"
+"\n"
+"QComboBox select {\n"
+"  display: none; /*hide original SELECT element: */\n"
+"}\n"
+"\n"
+".select-selected {\n"
+"  background-color: DodgerBlue;\n"
+"}\n"
+"\n"
+"/* Style the arrow inside the select element: */\n"
+".select-selected:after {\n"
+"  position: absolute;\n"
+"  content: \"\";\n"
+"  top: 14px;\n"
+"  right: 10px;\n"
+"  width: 0;\n"
+"  height: 0;\n"
+"  border: 6px solid transparent;\n"
+"  border-color: #fff transparent transparent transparent;\n"
+"}\n"
+"\n"
+"/* Point the arrow upwards when the select box is open (active): */\n"
+".select-selected.select-arrow-active:after {\n"
+"  border-color: transparent transparent #fff transparent;\n"
+"  top: 7px;\n"
+"}\n"
+"\n"
+"/* style the items (options), including the selected item: */\n"
+".select-items div,.select-selected {\n"
+"  color: #ffffff;\n"
+"  padding: 8px 16px;\n"
+"  border: 1px solid transparent;\n"
+"  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;\n"
+"  cursor: pointer;\n"
+"}\n"
+"\n"
+"/* Style items (options): */\n"
+".select-items {\n"
+"  position: absolute;\n"
+"  background-color: DodgerBlue;\n"
+"  top: 100%;\n"
+"  left: 0;\n"
+"  right: 0;\n"
+"  z-index: 99;\n"
+"}\n"
+"\n"
+"/* Hide the items when the select box is closed: */\n"
+".select-hide {\n"
+"  display: none;\n"
+"}\n"
+"\n"
+".select-items div:hover, .same-as-selected {\n"
+"  background-color: rgba(0, 0, 0, 0.1);\n"
+"}")
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.verticalLayout_3.addWidget(self.comboBox)
         self.horizontalLayout_2.addWidget(self.frame_left_menu)
         self.frame_pages = QtWidgets.QFrame(self.Content)
         self.frame_pages.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -249,6 +315,9 @@ class Ui_MainWindow(object):
         self.Btn_page_1.setText(_translate("MainWindow", "Page 1"))
         self.Btn_page_2.setText(_translate("MainWindow", "Page 2"))
         self.Btn_page_3.setText(_translate("MainWindow", "Page 3"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "1"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "3"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "6"))
 
 
 if __name__ == "__main__":

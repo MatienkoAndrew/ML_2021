@@ -7,8 +7,8 @@ import plotly.express as px
 from PyQt5 import QtWebEngineWidgets
 from PyQt5 import QtCore, QtGui
 
-class UIFunctions(MainWindow):
 
+class UIFunctions(MainWindow):
     def toggleMenu(self, maxWidth, enable):
         if enable:
             width = self.ui.frame_left_menu.width()
@@ -27,22 +27,42 @@ class UIFunctions(MainWindow):
             self.animation.start()
 
     def on_click(self):
-
-        self.ui.browser = QtWebEngineWidgets.QWebEngineView(self)
-        # self.ui.verticalLayout_2.addWidget(self.ui.browser)
-        self.ui.stackedWidget.addWidget(self.ui.browser)
-        self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
         textboxValue = self.ui.lineEdit.text()
-        print(textboxValue)
-        try:
-            stock = pdr.get_data_yahoo(textboxValue,
-                                  start=datetime.datetime(2006, 10, 1),
-                                  end=datetime.datetime.now())
-            print(stock)
-            self.show_in_window(stock)
-        except Exception as e:
-            print(e)
+        if textboxValue != '':
+            try:
+                stock = pdr.get_data_yahoo(textboxValue,
+                                      start=datetime.datetime(2006, 10, 1),
+                                      end=datetime.datetime.now())
+                print(stock)
+                self.show_in_window(stock)
+            except Exception as e:
+                print(e)
 
+    # Изменение цены акций в процентах за квартал
+    def plot_change_perc(self):
+        textboxValue = self.ui.lineEdit.text()
+        if textboxValue != '':
+            stock = pdr.get_data_yahoo(textboxValue,
+                                       start=datetime.datetime(2006, 10, 1),
+                                       end=datetime.datetime.now())
+            daily_close_px = stock['Adj Close']
+            daily_pct_change = daily_close_px.pct_change()
+
+            plot_month = self.ui.comboBox.currentText()
+            quarter_pct_change = daily_pct_change.resample(f'{plot_month}M').mean()
+            fig = px.bar(quarter_pct_change)
+            fig.update_layout(
+                title=self.ui.lineEdit.text(),
+                xaxis_title="time",
+                yaxis_title="pct_change",
+                font=dict(
+                    family="Courier New, monospace",
+                    size=15,
+                    color="RebeccaPurple"
+                )
+            )
+            self.ui.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+            self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
 
 
 
