@@ -482,6 +482,151 @@ QPushButton:hover {
            </widget>
           </item>
           <item>
+           <widget class="QLineEdit" name="lineEdit_long">
+            <property name="styleSheet">
+             <string notr="true">QLineEdit{
+	
+	background-color: rgb(255, 255, 255);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+            </property>
+            <property name="text">
+             <string>Long</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_long">
+            <property name="styleSheet">
+             <string notr="true">QSpinBox{
+	
+	background-color: rgb(255, 255, 255);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+            </property>
+            <property name="minimum">
+             <number>40</number>
+            </property>
+            <property name="maximum">
+             <number>250</number>
+            </property>
+            <property name="value">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="horizontalSlider_long">
+            <property name="minimum">
+             <number>40</number>
+            </property>
+            <property name="maximum">
+             <number>250</number>
+            </property>
+            <property name="singleStep">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <number>100</number>
+            </property>
+            <property name="sliderPosition">
+             <number>100</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>10</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_short">
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+	background-color: rgb(255, 255, 255);
+
+}</string>
+            </property>
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Short</string>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="dragEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_short">
+            <property name="styleSheet">
+             <string notr="true">QSpinBox {
+	background-color: white;
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+            </property>
+            <property name="minimum">
+             <number>10</number>
+            </property>
+            <property name="maximum">
+             <number>40</number>
+            </property>
+            <property name="value">
+             <number>40</number>
+            </property>
+            <property name="displayIntegerBase">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="horizontalSlider_short">
+            <property name="minimum">
+             <number>10</number>
+            </property>
+            <property name="maximum">
+             <number>40</number>
+            </property>
+            <property name="value">
+             <number>40</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QComboBox" name="comboBox">
             <property name="styleSheet">
              <string notr="true">/* The container must be positioned relative: */
@@ -489,6 +634,7 @@ QComboBox {
   position: relative;
   font-family: Arial;
   background-color: white;
+font: 10pt &quot;MS Shell Dlg 2&quot;;
 }
 
 QComboBox select {
@@ -560,6 +706,11 @@ QComboBox select {
               <string>6</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>12</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
@@ -599,6 +750,7 @@ QComboBox select {
             </property>
             <widget class="QWidget" name="page"/>
             <widget class="QWidget" name="page_2"/>
+            <widget class="QWidget" name="page_3"/>
            </widget>
           </item>
          </layout>

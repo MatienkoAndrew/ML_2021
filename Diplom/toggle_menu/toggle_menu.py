@@ -208,12 +208,76 @@ class Ui_MainWindow(object):
         self.Btn_page_3.setObjectName("Btn_page_3")
         self.verticalLayout_4.addWidget(self.Btn_page_3)
         self.verticalLayout_3.addWidget(self.frame_top_menus, 0, QtCore.Qt.AlignTop)
+        self.lineEdit_long = QtWidgets.QLineEdit(self.frame_left_menu)
+        self.lineEdit_long.setStyleSheet("QLineEdit{\n"
+"    \n"
+"    background-color: rgb(255, 255, 255);\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
+"}")
+        self.lineEdit_long.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_long.setReadOnly(True)
+        self.lineEdit_long.setObjectName("lineEdit_long")
+        self.verticalLayout_3.addWidget(self.lineEdit_long)
+        self.spinBox_long = QtWidgets.QSpinBox(self.frame_left_menu)
+        self.spinBox_long.setStyleSheet("QSpinBox{\n"
+"    \n"
+"    background-color: rgb(255, 255, 255);\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
+"}")
+        self.spinBox_long.setMinimum(40)
+        self.spinBox_long.setMaximum(250)
+        self.spinBox_long.setProperty("value", 100)
+        self.spinBox_long.setObjectName("spinBox_long")
+        self.verticalLayout_3.addWidget(self.spinBox_long)
+        self.horizontalSlider_long = QtWidgets.QSlider(self.frame_left_menu)
+        self.horizontalSlider_long.setMinimum(40)
+        self.horizontalSlider_long.setMaximum(250)
+        self.horizontalSlider_long.setSingleStep(1)
+        self.horizontalSlider_long.setProperty("value", 100)
+        self.horizontalSlider_long.setSliderPosition(100)
+        self.horizontalSlider_long.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider_long.setObjectName("horizontalSlider_long")
+        self.verticalLayout_3.addWidget(self.horizontalSlider_long)
+        spacerItem = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_3.addItem(spacerItem)
+        self.lineEdit_short = QtWidgets.QLineEdit(self.frame_left_menu)
+        self.lineEdit_short.setStyleSheet("QLineEdit {\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
+"    background-color: rgb(255, 255, 255);\n"
+"\n"
+"}")
+        self.lineEdit_short.setInputMask("")
+        self.lineEdit_short.setFrame(True)
+        self.lineEdit_short.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit_short.setDragEnabled(False)
+        self.lineEdit_short.setReadOnly(True)
+        self.lineEdit_short.setObjectName("lineEdit_short")
+        self.verticalLayout_3.addWidget(self.lineEdit_short)
+        self.spinBox_short = QtWidgets.QSpinBox(self.frame_left_menu)
+        self.spinBox_short.setStyleSheet("QSpinBox {\n"
+"    background-color: white;\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
+"}")
+        self.spinBox_short.setMinimum(10)
+        self.spinBox_short.setMaximum(40)
+        self.spinBox_short.setProperty("value", 40)
+        self.spinBox_short.setDisplayIntegerBase(10)
+        self.spinBox_short.setObjectName("spinBox_short")
+        self.verticalLayout_3.addWidget(self.spinBox_short)
+        self.horizontalSlider_short = QtWidgets.QSlider(self.frame_left_menu)
+        self.horizontalSlider_short.setMinimum(10)
+        self.horizontalSlider_short.setMaximum(40)
+        self.horizontalSlider_short.setProperty("value", 40)
+        self.horizontalSlider_short.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider_short.setObjectName("horizontalSlider_short")
+        self.verticalLayout_3.addWidget(self.horizontalSlider_short)
         self.comboBox = QtWidgets.QComboBox(self.frame_left_menu)
         self.comboBox.setStyleSheet("/* The container must be positioned relative: */\n"
 "QComboBox {\n"
 "  position: relative;\n"
 "  font-family: Arial;\n"
 "  background-color: white;\n"
+"font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "\n"
 "QComboBox select {\n"
@@ -273,6 +337,7 @@ class Ui_MainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
+        self.comboBox.addItem("")
         self.verticalLayout_3.addWidget(self.comboBox)
         self.horizontalLayout_2.addWidget(self.frame_left_menu)
         self.frame_pages = QtWidgets.QFrame(self.Content)
@@ -296,6 +361,9 @@ class Ui_MainWindow(object):
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
         self.stackedWidget.addWidget(self.page_2)
+        self.page_3 = QtWidgets.QWidget()
+        self.page_3.setObjectName("page_3")
+        self.stackedWidget.addWidget(self.page_3)
         self.verticalLayout_2.addWidget(self.stackedWidget)
         self.horizontalLayout_2.addWidget(self.frame_pages)
         self.verticalLayout.addWidget(self.Content)
@@ -315,9 +383,12 @@ class Ui_MainWindow(object):
         self.Btn_page_1.setText(_translate("MainWindow", "Page 1"))
         self.Btn_page_2.setText(_translate("MainWindow", "Page 2"))
         self.Btn_page_3.setText(_translate("MainWindow", "Page 3"))
+        self.lineEdit_long.setText(_translate("MainWindow", "Long"))
+        self.lineEdit_short.setText(_translate("MainWindow", "Short"))
         self.comboBox.setItemText(0, _translate("MainWindow", "1"))
         self.comboBox.setItemText(1, _translate("MainWindow", "3"))
         self.comboBox.setItemText(2, _translate("MainWindow", "6"))
+        self.comboBox.setItemText(3, _translate("MainWindow", "12"))
 
 
 if __name__ == "__main__":
