@@ -40,9 +40,32 @@ class UIFunctions(MainWindow):
                                       start=datetime.datetime(2006, 10, 1),
                                       end=datetime.datetime.now())
                 print(stock)
-                self.show_in_window(stock)
+                UIFunctions.show_in_window(self, stock)
             except Exception as e:
                 print(e)
+
+    def show_in_window(self, stock):
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=stock.index,
+                y=stock['Adj Close'],
+                mode='lines',
+                # line=dict(width=4),
+                name='Adj Close'
+            ))
+        fig.update_layout(
+                title=self.ui.lineEdit.text(),
+                xaxis_title="time",
+                yaxis_title="Price",
+                font=dict(
+                    family="Courier New, monospace",
+                    size=18,
+                    color="RebeccaPurple"
+                )
+            )
+        self.ui.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+        self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
 
     # Изменение цены акций в процентах за квартал
     def plot_change_perc(self):

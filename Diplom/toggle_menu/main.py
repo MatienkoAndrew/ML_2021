@@ -7,7 +7,7 @@ from PyQt5 import QtWebEngineWidgets
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWebEngineWidgets
 import sys
-
+# import OpenGL
 
 class MainWindow(QMainWindow):
 
@@ -59,23 +59,6 @@ class MainWindow(QMainWindow):
             self.ui.spinBox_long.setValue(self.ui.horizontalSlider_long.value())
         except Exception as e:
             print(e)
-
-    def show_in_window(self, stock):
-        fig = px.line(x=stock.index, y=stock['Adj Close'])
-        fig.update_layout(
-            title=self.ui.lineEdit.text(),
-            xaxis_title="time",
-            yaxis_title="Price",
-            font=dict(
-                family="Courier New, monospace",
-                size=18,
-                color="RebeccaPurple"
-            )
-        )
-        # fig.update_traces(quartilemethod="exclusive")  # or "inclusive", or "linear" by default
-        self.ui.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-        self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
-
 
 
 if __name__ == '__main__':
