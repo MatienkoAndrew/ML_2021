@@ -426,7 +426,7 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Page 1</string>
+                <string>График</string>
                </property>
               </widget>
              </item>
@@ -438,6 +438,52 @@ QPushButton:hover {
                  <height>40</height>
                 </size>
                </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+	text-overflow: clip;
+	white-space: pre-line
+}
+
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+	text-overflow: clip;
+}</string>
+               </property>
+               <property name="text">
+                <string>Вола
+тильность</string>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
+               <property name="flat">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Btn_page_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	color: rgb(255, 255, 255);
@@ -450,12 +496,16 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Page 2</string>
+                <string>Простая 
+стратегия</string>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Btn_page_3">
+              <widget class="QPushButton" name="Btn_page_4">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -474,11 +524,52 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Page 3</string>
+                <string>fbprophet</string>
                </property>
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_fbprophet">
+            <property name="styleSheet">
+             <string notr="true">QSpinBox{
+	
+	background-color: rgb(255, 255, 255);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+            </property>
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+            <property name="value">
+             <number>180</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="button_fb">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color:  rgb(85, 170, 255);
+	border: 0px solid;
+}
+
+QPushButton:hover {
+	background-color: rgb(255, 0, 0);
+}</string>
+            </property>
+            <property name="text">
+             <string>OK</string>
+            </property>
            </widget>
           </item>
           <item>

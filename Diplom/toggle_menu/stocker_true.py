@@ -6,28 +6,20 @@ import numpy as np
 import fbprophet
 import pytrends
 from pytrends.request import TrendReq
+
 # matplotlib pyplot for plotting
 import matplotlib.pyplot as plt
+
 import matplotlib
 
-import pandas_datareader as pdr
-import datetime
-import plotly.express as px
-from plotly.validators.scatter.marker import SymbolValidator
-import plotly.graph_objects as go
-# from main import MainWindow
-from ui_functions import *
 # Class for analyzing and (attempting) to predict future prices
 # Contains a number of visualizations and analysis methods
-class Stocker(MainWindow):
+class Stocker:
 
     # Initialization requires a ticker symbol
-    def __init__(self):#, ticker, exchange="WIKI"):
+    def __init__(self, ticker, exchange="WIKI"):
+
         # Enforce capitalization
-        textboxValue = self.ui.lineEdit.text()
-        ticker = pdr.get_data_yahoo(textboxValue,
-                                   start=datetime.datetime(2006, 10, 1),
-                                   end=datetime.datetime.now())
         ticker = ticker.upper()
 
         # Symbol is used for labeling plots
@@ -38,10 +30,8 @@ class Stocker(MainWindow):
 
         # Retrieval the financial data
         try:
-            # stock = quandl.get("%s/%s" % (exchange, ticker))
-            stock = pdr.get_data_yahoo(ticker,
-                               start=datetime.datetime(2006, 10, 1),
-                               end=datetime.datetime.now())
+            stock = quandl.get("%s/%s" % (exchange, ticker))
+
         except Exception as e:
             print("Error Retrieving Data.")
             print(e)
@@ -53,12 +43,12 @@ class Stocker(MainWindow):
         # Columns required for prophet
         stock["ds"] = stock["Date"]
 
-        if "Adj Close" not in stock.columns:
+        if "Adj. Close" not in stock.columns:
             stock["Adj. Close"] = stock["Close"]
             stock["Adj. Open"] = stock["Open"]
 
-        stock["y"] = stock["Adj Close"]
-        stock["Daily Change"] = stock["Adj Close"] - stock["Open"]
+        stock["y"] = stock["Adj. Close"]
+        stock["Daily Change"] = stock["Adj. Close"] - stock["Adj. Open"]
 
         # Data assigned as class attribute
         self.stock = stock.copy()
@@ -77,7 +67,7 @@ class Stocker(MainWindow):
         self.max_price_date = self.max_price_date[self.max_price_date.index[0]]
 
         # The starting price (starting with the opening price)
-        self.starting_price = float(self.stock.loc[0, "Open"])
+        self.starting_price = float(self.stock.loc[0, "Adj. Open"])
 
         # The most recent price
         self.most_recent_price = float(self.stock.loc[self.stock.index[-1], "y"])
@@ -232,96 +222,87 @@ class Stocker(MainWindow):
 
     # Basic Historical Plots and Basic Statistics
     def plot_stock(
-        self, start_date=None, end_date=None, stats=["Adj Close"], plot_type="basic"
+        self, start_date=None, end_date=None, stats=["Adj. Close"], plot_type="basic"
     ):
-        fig = go.Figure()
-        fig.add_trace(
-            go.Scatter(
-                x=self.stock.ds,
-                y=self.stock['Adj Close'],
-                mode='lines',
-                # line=dict(width=4),
-                name='Adj Close'
-            ))
-        fig.show()
-        # self.reset_plot()
-        #
-        # if start_date is None:
-        #     start_date = self.min_date
-        # if end_date is None:
-        #     end_date = self.max_date
-        #
-        # stock_plot = self.make_df(start_date, end_date)
-        #
-        # colors = ["r", "b", "g", "y", "c", "m"]
-        #
-        # for i, stat in enumerate(stats):
-        #
-        #     stat_min = min(stock_plot[stat])
-        #     stat_max = max(stock_plot[stat])
-        #
-        #     stat_avg = np.mean(stock_plot[stat])
-        #
-        #     date_stat_min = stock_plot[stock_plot[stat] == stat_min]["Date"]
-        #     date_stat_min = date_stat_min[date_stat_min.index[0]]
-        #     date_stat_max = stock_plot[stock_plot[stat] == stat_max]["Date"]
-        #     date_stat_max = date_stat_max[date_stat_max.index[0]]
-        #
-        #     print("Maximum {} = {:.2f} on {}.".format(stat, stat_max, date_stat_max))
-        #     print("Minimum {} = {:.2f} on {}.".format(stat, stat_min, date_stat_min))
-        #     print(
-        #         "Current {} = {:.2f} on {}.\n".format(
-        #             stat, self.stock.loc[self.stock.index[-1], stat], self.max_date
-        #         )
-        #     )
-        #
-        #     # Percentage y-axis
-        #     if plot_type == "pct":
-        #         # Simple Plot
-        #         plt.style.use("fivethirtyeight")
-        #         if stat == "Daily Change":
-        #             plt.plot(
-        #                 stock_plot["Date"],
-        #                 100 * stock_plot[stat],
-        #                 color=colors[i],
-        #                 linewidth=2.4,
-        #                 alpha=0.9,
-        #                 label=stat,
-        #             )
-        #         else:
-        #             plt.plot(
-        #                 stock_plot["Date"],
-        #                 100 * (stock_plot[stat] - stat_avg) / stat_avg,
-        #                 color=colors[i],
-        #                 linewidth=2.4,
-        #                 alpha=0.9,
-        #                 label=stat,
-        #             )
-        #
-        #         plt.xlabel("Date")
-        #         plt.ylabel("Change Relative to Average (%)")
-        #         plt.title("%s Stock History" % self.symbol)
-        #         plt.legend(prop={"size": 10})
-        #         plt.grid(color="k", alpha=0.4)
-        #
-        #     # Stat y-axis
-        #     elif plot_type == "basic":
-        #         plt.style.use("fivethirtyeight")
-        #         plt.plot(
-        #             stock_plot["Date"],
-        #             stock_plot[stat],
-        #             color=colors[i],
-        #             linewidth=3,
-        #             label=stat,
-        #             alpha=0.8,
-        #         )
-        #         plt.xlabel("Date")
-        #         plt.ylabel("US $")
-        #         plt.title("%s Stock History" % self.symbol)
-        #         plt.legend(prop={"size": 10})
-        #         plt.grid(color="k", alpha=0.4)
-        #
-        # plt.show()
+
+        self.reset_plot()
+
+        if start_date is None:
+            start_date = self.min_date
+        if end_date is None:
+            end_date = self.max_date
+
+        stock_plot = self.make_df(start_date, end_date)
+
+        colors = ["r", "b", "g", "y", "c", "m"]
+
+        for i, stat in enumerate(stats):
+
+            stat_min = min(stock_plot[stat])
+            stat_max = max(stock_plot[stat])
+
+            stat_avg = np.mean(stock_plot[stat])
+
+            date_stat_min = stock_plot[stock_plot[stat] == stat_min]["Date"]
+            date_stat_min = date_stat_min[date_stat_min.index[0]]
+            date_stat_max = stock_plot[stock_plot[stat] == stat_max]["Date"]
+            date_stat_max = date_stat_max[date_stat_max.index[0]]
+
+            print("Maximum {} = {:.2f} on {}.".format(stat, stat_max, date_stat_max))
+            print("Minimum {} = {:.2f} on {}.".format(stat, stat_min, date_stat_min))
+            print(
+                "Current {} = {:.2f} on {}.\n".format(
+                    stat, self.stock.loc[self.stock.index[-1], stat], self.max_date
+                )
+            )
+
+            # Percentage y-axis
+            if plot_type == "pct":
+                # Simple Plot
+                plt.style.use("fivethirtyeight")
+                if stat == "Daily Change":
+                    plt.plot(
+                        stock_plot["Date"],
+                        100 * stock_plot[stat],
+                        color=colors[i],
+                        linewidth=2.4,
+                        alpha=0.9,
+                        label=stat,
+                    )
+                else:
+                    plt.plot(
+                        stock_plot["Date"],
+                        100 * (stock_plot[stat] - stat_avg) / stat_avg,
+                        color=colors[i],
+                        linewidth=2.4,
+                        alpha=0.9,
+                        label=stat,
+                    )
+
+                plt.xlabel("Date")
+                plt.ylabel("Change Relative to Average (%)")
+                plt.title("%s Stock History" % self.symbol)
+                plt.legend(prop={"size": 10})
+                plt.grid(color="k", alpha=0.4)
+
+            # Stat y-axis
+            elif plot_type == "basic":
+                plt.style.use("fivethirtyeight")
+                plt.plot(
+                    stock_plot["Date"],
+                    stock_plot[stat],
+                    color=colors[i],
+                    linewidth=3,
+                    label=stat,
+                    alpha=0.8,
+                )
+                plt.xlabel("Date")
+                plt.ylabel("US $")
+                plt.title("%s Stock History" % self.symbol)
+                plt.legend(prop={"size": 10})
+                plt.grid(color="k", alpha=0.4)
+
+        plt.show()
 
     # Reset the plotting parameters to clear style formatting
     # Not sure if this should be a static method
@@ -517,136 +498,78 @@ class Stocker(MainWindow):
     # Basic prophet model for specified number of days
     def create_prophet_model(self, days=0, resample=False):
 
-        # self.reset_plot()
-        try:
-            # UIFunctions.simple_strategy_utils_not_visible()
+        self.reset_plot()
 
-            self.ui.lineEdit_long.setVisible(False)
-            self.ui.spinBox_long.setVisible(False)
-            self.ui.horizontalSlider_long.setVisible(False)
-            self.ui.lineEdit_short.setVisible(False)
-            self.ui.spinBox_short.setVisible(False)
-            self.ui.horizontalSlider_short.setVisible(False)
-            self.ui.spinBox_fbprophet.setVisible(False)
-            self.ui.comboBox.setVisible(False)
-            self.ui.button_fb.setVisible(True)
-            self.ui.spinBox_fbprophet.setVisible(True)
-            model = fbprophet.Prophet(
-                daily_seasonality=False,
-                weekly_seasonality=False,
-                yearly_seasonality=True,
-                changepoint_prior_scale=0.05,
-                changepoints=None,
-            )
+        model = self.create_model()
 
-            if True:
-                # Add monthly seasonality
-                model.add_seasonality(name="monthly", period=30.5, fourier_order=5)
+        # Fit on the stock history for self.training_years number of years
+        stock_history = self.stock[
+            self.stock["Date"]
+            > (self.max_date - pd.DateOffset(years=self.training_years))
+        ]
 
-            stock = pdr.get_data_yahoo(self.ui.lineEdit.text(), start=datetime.datetime(2006, 10, 1),
-                                       end=datetime.datetime.now()).reset_index()
-            stock["ds"] = stock["Date"]
-            stock["y"] = stock["Adj Close"]
-            training_years = 3
-            max_date = max(stock["Date"])
-            # Fit on the stock history for self.training_years number of years
-            stock_history = stock[
-                stock["Date"]
-                > (max_date - pd.DateOffset(years=training_years))
-            ]
+        if resample:
+            stock_history = self.resample(stock_history)
 
-            # if resample:
-            #     stock_history = self.resample(stock_history)
+        model.fit(stock_history)
 
-            model.fit(stock_history)
+        # Make and predict for next year with future dataframe
+        future = model.make_future_dataframe(periods=days, freq="D")
+        future = model.predict(future)
 
-            # Make and predict for next year with future dataframe
-            future = model.make_future_dataframe(periods=days, freq="D")
-            future = model.predict(future)
-
-            if days > 0:
-                # Print the predicted price
-                # print(
-                #     "Predicted Price on {} = ${:.2f}".format(
-                #         future.loc[future.index[-1], "ds"],
-                #         future.loc[future.index[-1], "yhat"],
-                #     )
-                # )
-
-                title = "%s Historical and Predicted Stock Price" % self.ui.lineEdit.text()
-            else:
-                title = "%s Historical and Modeled Stock Price" % self.ui.lineEdit.text()
-
-            # # Set up the plot
-            # fig, ax = plt.subplots(1, 1)
-            #
-            # # Plot the actual values
-            # ax.plot(
-            #     stock_history["ds"],
-            #     stock_history["y"],
-            #     "ko-",
-            #     linewidth=1.4,
-            #     alpha=0.8,
-            #     ms=1.8,
-            #     label="Observations",
-            # )
-            #
-            # # Plot the predicted values
-            # ax.plot(
-            #     future["ds"], future["yhat"], "forestgreen", linewidth=2.4, label="Modeled"
-            # )
-            #
-            # # Plot the uncertainty interval as ribbon
-            # ax.fill_between(
-            #     future["ds"].dt.to_pydatetime(),
-            #     future["yhat_upper"],
-            #     future["yhat_lower"],
-            #     alpha=0.3,
-            #     facecolor="g",
-            #     edgecolor="k",
-            #     linewidth=1.4,
-            #     label="Confidence Interval",
-            # )
-            #
-            # # Plot formatting
-            # plt.legend(loc=2, prop={"size": 10})
-            # plt.xlabel("Date")
-            # plt.ylabel("Price $")
-            # plt.grid(linewidth=0.6, alpha=0.6)
-            # plt.title(title)
-            # plt.show()
-
-            ##-- plotly
-            fig_model = go.Figure([
-                go.Scatter(x=stock_history["ds"],
-                           y=stock_history["y"],
-                           mode="lines", opacity=0.8,
-                           name="Observations", line=dict(width=1.4, color='Black')),
-                go.Scatter(x=future["ds"], y=future["yhat"],
-                           name="Modeled", mode="lines", line=dict(width=2.4, color='Green')),
-                go.Scatter(name="Upper Bound", x=future["ds"], y=future["yhat_upper"],
-                           mode="lines",showlegend=False, line=dict(color='Green')),
-                go.Scatter(name="Lower Bound", x=future["ds"], y=future["yhat_lower"],
-                           mode="lines", fillcolor='rgba(67,255,1, 0.3)',
-                           fill='tonexty', showlegend=False, line=dict(color='Green'))
-            ])
-            fig_model.update_layout(
-                title=title,
-                xaxis_title="Date",
-                yaxis_title="Price",
-                font=dict(
-                    family="Courier New, monospace",
-                    size=14,
-                    color="RebeccaPurple"
+        if days > 0:
+            # Print the predicted price
+            print(
+                "Predicted Price on {} = ${:.2f}".format(
+                    future.loc[future.index[-1], "ds"],
+                    future.loc[future.index[-1], "yhat"],
                 )
             )
-            self.ui.browser.setHtml(fig_model.to_html(include_plotlyjs='cdn'))
-            self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
-        except Exception as e:
-            pass
-            # print(e)
 
-        # return model, future
+            title = "%s Historical and Predicted Stock Price" % self.symbol
+        else:
+            title = "%s Historical and Modeled Stock Price" % self.symbol
+
+        # Set up the plot
+        fig, ax = plt.subplots(1, 1)
+
+        # Plot the actual values
+        ax.plot(
+            stock_history["ds"],
+            stock_history["y"],
+            "ko-",
+            linewidth=1.4,
+            alpha=0.8,
+            ms=1.8,
+            label="Observations",
+        )
+
+        # Plot the predicted values
+        ax.plot(
+            future["ds"], future["yhat"], "forestgreen", linewidth=2.4, label="Modeled"
+        )
+
+        # Plot the uncertainty interval as ribbon
+        ax.fill_between(
+            future["ds"].dt.to_pydatetime(),
+            future["yhat_upper"],
+            future["yhat_lower"],
+            alpha=0.3,
+            facecolor="g",
+            edgecolor="k",
+            linewidth=1.4,
+            label="Confidence Interval",
+        )
+
+        # Plot formatting
+        plt.legend(loc=2, prop={"size": 10})
+        plt.xlabel("Date")
+        plt.ylabel("Price $")
+        plt.grid(linewidth=0.6, alpha=0.6)
+        plt.title(title)
+        plt.show()
+
+        return model, future
 
     # Evaluate prediction model for one year
     def evaluate_prediction(self, start_date=None, end_date=None, nshares=None):
@@ -1361,13 +1284,3 @@ class Stocker(MainWindow):
         plt.xticks(results["cps"], results["cps"])
         plt.legend(prop={"size": 10})
         plt.show()
-
-# import plotly.io as pio
-# pio.renderers.default = "sphinx_gallery_png"
-
-if __name__=="__main__":
-    microsoft = Stocker('SPCE')
-    stock_history = microsoft.stock
-    # print(stock_history.head())
-    # microsoft.plot_stock()
-    model, model_data = microsoft.create_prophet_model(days=180)
