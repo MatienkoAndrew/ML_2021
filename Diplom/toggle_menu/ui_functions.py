@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 from plotly.validators.scatter.marker import SymbolValidator
 import plotly.graph_objects as go
-
+from stocker import Stocker
 
 class UIFunctions(MainWindow):
     def toggleMenu(self, maxWidth, enable):
@@ -21,8 +21,12 @@ class UIFunctions(MainWindow):
 
             if width == 70:
                 widthExtended = maxExtend
+                self.ui.Btn_page_2.setText("Волатильность")
+                self.ui.Btn_page_3.setText("Простая стратегия")
             else:
                 widthExtended = standard
+                self.ui.Btn_page_2.setText("Вола-\nтильность")
+                self.ui.Btn_page_3.setText("Простая\nстратегия")
 
             self.animation = QPropertyAnimation(self.ui.frame_left_menu, b"minimumWidth")
             self.animation.setDuration(300)
@@ -32,6 +36,7 @@ class UIFunctions(MainWindow):
 
     def on_click(self):
         self.ui.comboBox.setVisible(False)
+        self.ui.button_fb.setVisible(False)
         UIFunctions.simple_strategy_utils_not_visible(self)
         textboxValue = self.ui.lineEdit.text()
         if textboxValue != '':
@@ -69,6 +74,7 @@ class UIFunctions(MainWindow):
 
     # Изменение цены акций в процентах за квартал
     def plot_change_perc(self):
+        self.ui.spinBox_fbprophet.setVisible(False)
         self.ui.comboBox.setVisible(True) ##-- делаю видимым только для графика изменения процентов
         UIFunctions.simple_strategy_utils_not_visible(self)
 
@@ -113,6 +119,8 @@ class UIFunctions(MainWindow):
 
     def plot_simple_strategy(self):
         self.ui.comboBox.setVisible(False)
+        self.ui.spinBox_fbprophet.setVisible(False)
+        self.ui.button_fb.setVisible(False)
         UIFunctions.simple_strategy_utils_visible(self)
         textboxValue = self.ui.lineEdit.text()
         if textboxValue != '':
@@ -192,6 +200,7 @@ class UIFunctions(MainWindow):
         self.ui.lineEdit_short.setVisible(False)
         self.ui.spinBox_short.setVisible(False)
         self.ui.horizontalSlider_short.setVisible(False)
+        self.ui.spinBox_fbprophet.setVisible(False)
 
     def simple_strategy_utils_visible(self):
         self.ui.lineEdit_long.setVisible(True)
