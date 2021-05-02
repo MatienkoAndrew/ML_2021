@@ -12,6 +12,80 @@ from plotly.validators.scatter.marker import SymbolValidator
 import plotly.graph_objects as go
 from stocker import Stocker
 
+from PyQt5.QtCore import QThread
+import time
+
+
+class PlotStock(QThread):
+    def __init__(self, mainwindow, parent=None):
+        super(PlotStock, self).__init__(parent)
+        self.mainwindow = mainwindow
+        self.fig_stock = None
+
+    def run(self):
+        textboxValue = self.mainwindow.ui.lineEdit.text()
+        if textboxValue != '':
+            try:
+                stock = pdr.get_data_yahoo(textboxValue,
+                                           start=datetime.datetime(2006, 10, 1),
+                                           end=datetime.datetime.now())
+                print(stock)
+                self.show_in_window(stock)
+            except Exception as e:
+                print(e)
+
+    def show_in_window(self, stock):
+        self.fig_stock = go.Figure()
+        self.fig_stock.add_trace(
+            go.Scatter(
+                x=stock.index,
+                y=stock['Adj Close'],
+                mode='lines',
+                # line=dict(width=4),
+                name='Adj Close'
+            ))
+        self.fig_stock.update_layout(
+                title=self.mainwindow.ui.lineEdit.text(),
+                xaxis_title="time",
+                yaxis_title="Price",
+                font=dict(
+                    family="Courier New, monospace",
+                    size=18,
+                    color="RebeccaPurple"
+                )
+            )
+
+
+class PlotVolatility(QThread):
+    def __init__(self, mainwindow, parent=None):
+        super(PlotVolatility, self).__init__(parent)
+        self.mainwindow = mainwindow
+        self.fig_vol = None
+
+    def run(self):
+        textboxValue = self.mainwindow.ui.lineEdit.text()
+        if textboxValue != '':
+            stock = pdr.get_data_yahoo(textboxValue,
+                                       start=datetime.datetime(2006, 10, 1),
+                                       end=datetime.datetime.now())
+            daily_close_px = stock['Adj Close']
+            daily_pct_change = daily_close_px.pct_change()
+
+            plot_month = self.mainwindow.ui.comboBox.currentText()
+            quarter_pct_change = daily_pct_change.resample(f'{plot_month}M').mean()
+            self.fig_vol = px.bar(quarter_pct_change)
+            self.fig_vol.update_layout(
+                title=self.mainwindow.ui.lineEdit.text(),
+                xaxis_title="time",
+                yaxis_title="pct_change",
+                font=dict(
+                    family="Courier New, monospace",
+                    size=15,
+                    color="RebeccaPurple"
+                )
+            )
+
+
 class UIFunctions(MainWindow):
     def toggleMenu(self, maxWidth, enable):
         if enable:
@@ -34,73 +108,22 @@ class UIFunctions(MainWindow):
             self.animation.setEndValue(widthExtended)
             self.animation.start()
 
-    def on_click(self):
-        self.ui.comboBox.setVisible(False)
-        self.ui.button_fb.setVisible(False)
-        UIFunctions.simple_strategy_utils_not_visible(self)
-        textboxValue = self.ui.lineEdit.text()
-        if textboxValue != '':
-            try:
-                stock = pdr.get_data_yahoo(textboxValue,
-                                      start=datetime.datetime(2006, 10, 1),
-                                      end=datetime.datetime.now())
-                print(stock)
-                UIFunctions.show_in_window(self, stock)
-            except Exception as e:
-                print(e)
+    def plot_stock_when_finish_thread(self):
+        self.thread_plot_stock.finished.connect(lambda: UIFunctions.plot_stock(self))
 
-    def show_in_window(self, stock):
-        fig = go.Figure()
-        fig.add_trace(
-            go.Scatter(
-                x=stock.index,
-                y=stock['Adj Close'],
-                mode='lines',
-                # line=dict(width=4),
-                name='Adj Close'
-            ))
-        fig.update_layout(
-                title=self.ui.lineEdit.text(),
-                xaxis_title="time",
-                yaxis_title="Price",
-                font=dict(
-                    family="Courier New, monospace",
-                    size=18,
-                    color="RebeccaPurple"
-                )
-            )
-        self.ui.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+    def plot_stock(self):
+        UIFunctions.plot_stock_visible(self)
+        self.ui.browser.setHtml(self.thread_plot_stock.fig_stock.to_html(include_plotlyjs='cdn'))
         self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
+
+    def plot_change_perc_finish_thread(self):
+        self.thread_plot_volatility.finished.connect(lambda: UIFunctions.plot_change_perc(self))
 
     # Изменение цены акций в процентах за квартал
     def plot_change_perc(self):
-        self.ui.spinBox_fbprophet.setVisible(False)
-        self.ui.comboBox.setVisible(True) ##-- делаю видимым только для графика изменения процентов
-        UIFunctions.simple_strategy_utils_not_visible(self)
-
-        textboxValue = self.ui.lineEdit.text()
-        if textboxValue != '':
-            stock = pdr.get_data_yahoo(textboxValue,
-                                       start=datetime.datetime(2006, 10, 1),
-                                       end=datetime.datetime.now())
-            daily_close_px = stock['Adj Close']
-            daily_pct_change = daily_close_px.pct_change()
-
-            plot_month = self.ui.comboBox.currentText()
-            quarter_pct_change = daily_pct_change.resample(f'{plot_month}M').mean()
-            fig = px.bar(quarter_pct_change)
-            fig.update_layout(
-                title=self.ui.lineEdit.text(),
-                xaxis_title="time",
-                yaxis_title="pct_change",
-                font=dict(
-                    family="Courier New, monospace",
-                    size=15,
-                    color="RebeccaPurple"
-                )
-            )
-            self.ui.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-            self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
+        UIFunctions.plot_change_perc_visible(self)
+        self.ui.browser.setHtml(self.thread_plot_volatility.fig_vol.to_html(include_plotlyjs='cdn'))
+        self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
 
     # простая стратегия
     def simple_trade_strategy(self, company, short_window=40, long_window=100):
@@ -118,10 +141,7 @@ class UIFunctions(MainWindow):
         return signals
 
     def plot_simple_strategy(self):
-        self.ui.comboBox.setVisible(False)
-        self.ui.spinBox_fbprophet.setVisible(False)
-        self.ui.button_fb.setVisible(False)
-        UIFunctions.simple_strategy_utils_visible(self)
+        UIFunctions.plot_simple_strategy_visible(self)
         textboxValue = self.ui.lineEdit.text()
         if textboxValue != '':
             stock = pdr.get_data_yahoo(textboxValue,
@@ -137,8 +157,8 @@ class UIFunctions(MainWindow):
                 raw_symbols = SymbolValidator().values
                 marker_triangle_up = raw_symbols[raw_symbols.index('triangle-up')]
                 marker_triangle_down = raw_symbols[raw_symbols.index('triangle-down')]
-                fig = go.Figure()
-                fig.add_trace(
+                fig_strategy = go.Figure()
+                fig_strategy.add_trace(
                     go.Scatter(
                         x=stock.index,
                         y=stock['Adj Close'],
@@ -146,21 +166,21 @@ class UIFunctions(MainWindow):
                         # line=dict(width=4),
                         name='Adj Close'
                     ))
-                fig.add_trace(
+                fig_strategy.add_trace(
                     go.Scatter(
                         x=signals_company.index,
                         y=signals_company['short_mavg'],
                         mode='lines',
                         name='short_mavg'
                     ))
-                fig.add_trace(
+                fig_strategy.add_trace(
                     go.Scatter(
                         x=signals_company.index,
                         y=signals_company['long_mavg'],
                         mode='lines',
                         name='long_mavg'
                     ))
-                fig.add_trace(
+                fig_strategy.add_trace(
                     go.Scatter(
                         x=signals_company.loc[signals_company.positions == 1.0].index,
                         y=signals_company.short_mavg[signals_company.positions == 1.0],
@@ -170,7 +190,7 @@ class UIFunctions(MainWindow):
                         marker_color="yellowgreen",
                         name='buy'
                     ))
-                fig.add_trace(
+                fig_strategy.add_trace(
                     go.Scatter(
                         x=signals_company.loc[signals_company.positions == -1.0].index,
                         y=signals_company.short_mavg[signals_company.positions == -1.0],
@@ -180,14 +200,14 @@ class UIFunctions(MainWindow):
                         marker_color="black",
                         name='sell'
                     ))
-                fig.update_layout(
+                fig_strategy.update_layout(
                     title=textboxValue + " simple strategy",
                     xaxis_title='Date',
                     yaxis_title='Price ($)'
                 )
                 # fig.show()
 
-                self.ui.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+                self.ui.browser.setHtml(fig_strategy.to_html(include_plotlyjs='cdn'))
                 self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
             except Exception as e:
                 print(e)
@@ -209,6 +229,25 @@ class UIFunctions(MainWindow):
         self.ui.lineEdit_short.setVisible(True)
         self.ui.spinBox_short.setVisible(True)
         self.ui.horizontalSlider_short.setVisible(True)
+
+    def plot_stock_visible(self):
+        self.ui.comboBox.setVisible(False)
+        self.ui.button_fb.setVisible(False)
+        UIFunctions.simple_strategy_utils_not_visible(self)
+
+    def plot_change_perc_visible(self):
+        self.ui.spinBox_fbprophet.setVisible(False)
+        self.ui.comboBox.setVisible(True)
+        UIFunctions.simple_strategy_utils_not_visible(self)
+
+    def plot_simple_strategy_visible(self):
+        self.ui.comboBox.setVisible(False)
+        self.ui.spinBox_fbprophet.setVisible(False)
+        self.ui.button_fb.setVisible(False)
+        UIFunctions.simple_strategy_utils_visible(self)
+
+
+
 
 
 
