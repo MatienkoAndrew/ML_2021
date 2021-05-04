@@ -1,0 +1,1 @@
+pyuic5 -x about.ui -o about.py
