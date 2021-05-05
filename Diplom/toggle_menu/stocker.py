@@ -555,9 +555,6 @@ class Stocker(MainWindow):
                 > (max_date - pd.DateOffset(years=training_years))
             ]
 
-            # if resample:
-            #     stock_history = self.resample(stock_history)
-
             model.fit(stock_history)
 
             # Make and predict for next year with future dataframe
@@ -565,56 +562,9 @@ class Stocker(MainWindow):
             future = model.predict(future)
 
             if days > 0:
-                # Print the predicted price
-                # print(
-                #     "Predicted Price on {} = ${:.2f}".format(
-                #         future.loc[future.index[-1], "ds"],
-                #         future.loc[future.index[-1], "yhat"],
-                #     )
-                # )
-
                 title = "%s Historical and Predicted Stock Price" % self.ui.lineEdit.text()
             else:
                 title = "%s Historical and Modeled Stock Price" % self.ui.lineEdit.text()
-
-            # # Set up the plot
-            # fig, ax = plt.subplots(1, 1)
-            #
-            # # Plot the actual values
-            # ax.plot(
-            #     stock_history["ds"],
-            #     stock_history["y"],
-            #     "ko-",
-            #     linewidth=1.4,
-            #     alpha=0.8,
-            #     ms=1.8,
-            #     label="Observations",
-            # )
-            #
-            # # Plot the predicted values
-            # ax.plot(
-            #     future["ds"], future["yhat"], "forestgreen", linewidth=2.4, label="Modeled"
-            # )
-            #
-            # # Plot the uncertainty interval as ribbon
-            # ax.fill_between(
-            #     future["ds"].dt.to_pydatetime(),
-            #     future["yhat_upper"],
-            #     future["yhat_lower"],
-            #     alpha=0.3,
-            #     facecolor="g",
-            #     edgecolor="k",
-            #     linewidth=1.4,
-            #     label="Confidence Interval",
-            # )
-            #
-            # # Plot formatting
-            # plt.legend(loc=2, prop={"size": 10})
-            # plt.xlabel("Date")
-            # plt.ylabel("Price $")
-            # plt.grid(linewidth=0.6, alpha=0.6)
-            # plt.title(title)
-            # plt.show()
 
             ##-- plotly
             fig_model = go.Figure([
@@ -644,9 +594,6 @@ class Stocker(MainWindow):
             self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
         except Exception as e:
             pass
-            # print(e)
-
-        # return model, future
 
     # Evaluate prediction model for one year
     def evaluate_prediction(self, start_date=None, end_date=None, nshares=None):
