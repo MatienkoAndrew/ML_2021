@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QPropertyAnimation
 from PyQt5 import QtCore
-from main import MainWindow
+from main import Stocks
 import pandas_datareader as pdr
 import datetime
 import plotly.express as px
@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 from plotly.validators.scatter.marker import SymbolValidator
 import plotly.graph_objects as go
-from stocker import Stocker
+# from stocker import Stocker
 
 from PyQt5.QtCore import QThread
 import time
@@ -238,7 +238,7 @@ class PlotFBProphet(QThread):
         )
 
 
-class UIFunctions(MainWindow):
+class UIFunctions(Stocks):
     def toggleMenu(self, maxWidth, enable):
         if enable:
             width = self.ui.frame_left_menu.width()

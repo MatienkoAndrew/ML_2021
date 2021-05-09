@@ -1,19 +1,25 @@
 from toggle_menu import Ui_MainWindow
+from mainwindow import Ui_MainWindow as Ui_MainWindow_main
+from portfolio import Ui_MainWindow as Portfolio_window
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
-from ui_functions import *
-from PyQt5 import QtWebEngineWidgets
+from ui_functions import *  # PlotStock, PlotVolatility, PlotSimpleStrategy, PlotFBProphet, UIFunctions
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWebEngineWidgets
-from PyQt5.Qt import Qt
 import sys
-import time
+from Portfolio_class import Portfolio
+from Pick_up_portfolio_class import PickUpPortfolio
+
 # import OpenGL
 
-class MainWindow(QMainWindow):
+'''
+Окно "Акции"
+'''
 
+
+class Stocks(QMainWindow):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super(Stocks, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -52,7 +58,7 @@ class MainWindow(QMainWindow):
         self.ui.Btn_page_2.clicked.connect(lambda: UIFunctions.plot_change_perc(self))
         self.ui.Btn_page_3.clicked.connect(lambda: UIFunctions.plot_simple_strategy(self))
         self.ui.Btn_page_4.clicked.connect(lambda: UIFunctions.plot_fbprophet(self))
-        self.show()
+        # self.show()
 
     ## Запуск всех потоков нажатием кнопки "Find"
     def threads_start(self):
@@ -106,7 +112,46 @@ class MainWindow(QMainWindow):
     #         UIFunctions.toggleMenu(self, 250, True)
 
 
+
+
+'''
+Главное окно
+'''
+
+
+class MainWindow_main(QMainWindow):
+    def __init__(self):
+        super(MainWindow_main, self).__init__()
+        self.ui = Ui_MainWindow_main()
+        self.ui.setupUi(self)
+        self.stock = None
+        self.portfolio = None
+        self.initUI()
+
+    def initUI(self):
+        self.ui.button_stocks.clicked.connect(self.stocks)
+        self.ui.button_portfolio.clicked.connect(self.portfolio_fun)
+
+    def stocks(self):
+        self.stock = Stocks()
+        self.stock.setWindowTitle("Stocker")
+        self.stock.setWindowIcon(QtGui.QIcon("images\portfolio.png"))
+        self.stock.show()
+        # self.close()
+
+    def portfolio_fun(self):
+        self.portfolio = Portfolio()
+        self.portfolio.setWindowTitle("Stocker")
+        self.portfolio.setWindowIcon(QtGui.QIcon("images\portfolio.png"))
+        self.portfolio.show()
+        self.close()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = MainWindow()
+    window = MainWindow_main()
+    window.setWindowTitle("Stocker")
+    window.setWindowIcon(QtGui.QIcon("images\portfolio.png"))
+    window.show()
+    # window = MainWindow()
     sys.exit(app.exec_())
