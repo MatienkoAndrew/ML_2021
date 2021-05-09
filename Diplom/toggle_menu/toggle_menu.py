@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'toggle_menu.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -66,7 +68,8 @@ class Ui_MainWindow(object):
 "    color: rgb(255,255,255);\n"
 "    border: 0px sold;\n"
 "    text-align: center;\n"
-"}")
+"}\n"
+"")
         self.Btn_Toggle.setObjectName("Btn_Toggle")
         self.horizontalLayout_3.addWidget(self.Btn_Toggle)
         self.horizontalLayout.addWidget(self.frame_toggle)
@@ -131,7 +134,12 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton:hover {\n"
+"    border: 1px solid rgb(255, 0, 0);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
 "    background-color: rgb(255, 0, 0);\n"
+"    padding-top: 5px;\n"
 "}")
         self.btnFind.setObjectName("btnFind")
         self.horizontalLayout_5.addWidget(self.btnFind)
@@ -449,4 +457,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
