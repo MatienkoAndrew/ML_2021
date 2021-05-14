@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>507</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -461,7 +461,7 @@ QPushButton:pressed {
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="Btn_page_1">
+              <widget class="QPushButton" name="btn_parameters">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -480,7 +480,8 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>График</string>
+                <string>Параметры
+портфеля</string>
                </property>
               </widget>
              </item>
@@ -671,7 +672,45 @@ QPushButton:pressed {
               <property name="spacing">
                <number>0</number>
               </property>
-              <item row="1" column="0">
+              <item row="0" column="0">
+               <widget class="QTableWidget" name="tableWidget">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Sunken</enum>
+                </property>
+                <property name="lineWidth">
+                 <number>1</number>
+                </property>
+                <property name="verticalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAsNeeded</enum>
+                </property>
+                <property name="sizeAdjustPolicy">
+                 <enum>QAbstractScrollArea::AdjustIgnored</enum>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="gridStyle">
+                 <enum>Qt::SolidLine</enum>
+                </property>
+                <property name="sortingEnabled">
+                 <bool>false</bool>
+                </property>
+                <column>
+                 <property name="text">
+                  <string>Tickers</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Company name</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item row="2" column="0">
                <widget class="QFrame" name="frame">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -723,7 +762,7 @@ QPushButton:pressed {
                   <number>0</number>
                  </property>
                  <item row="0" column="0">
-                  <widget class="QPushButton" name="pushButton">
+                  <widget class="QPushButton" name="btn_create_portfolio">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
@@ -755,48 +794,242 @@ QPushButton:pressed {
                 </layout>
                </widget>
               </item>
-              <item row="0" column="0">
-               <widget class="QTableWidget" name="tableWidget">
+              <item row="1" column="0">
+               <widget class="QFrame" name="frame_3">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="frameShadow">
-                 <enum>QFrame::Sunken</enum>
+                 <enum>QFrame::Raised</enum>
                 </property>
-                <property name="lineWidth">
-                 <number>1</number>
-                </property>
-                <property name="verticalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
-                </property>
-                <property name="sizeAdjustPolicy">
-                 <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::NoEditTriggers</set>
-                </property>
-                <property name="gridStyle">
-                 <enum>Qt::SolidLine</enum>
-                </property>
-                <property name="sortingEnabled">
-                 <bool>false</bool>
-                </property>
-                <column>
-                 <property name="text">
-                  <string>Tickers</string>
+                <layout class="QGridLayout" name="gridLayout_3">
+                 <property name="leftMargin">
+                  <number>0</number>
                  </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Company name</string>
+                 <property name="topMargin">
+                  <number>0</number>
                  </property>
-                </column>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>90</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>90</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);
+font: 12pt &quot;MingLiU_HKSCS-ExtB&quot;;
+color: rgb(0, 0, 0);</string>
+                   </property>
+                   <property name="text">
+                    <string>Money,$:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QSpinBox" name="spinBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>50</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>50</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);
+font: 12pt &quot;MingLiU_HKSCS-ExtB&quot;;</string>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="specialValueText">
+                    <string/>
+                   </property>
+                   <property name="keyboardTracking">
+                    <bool>true</bool>
+                   </property>
+                   <property name="maximum">
+                    <number>999999999</number>
+                   </property>
+                   <property name="value">
+                    <number>1000</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="page_2"/>
+            <widget class="QWidget" name="page_2">
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QFrame" name="frame_4">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QTableView" name="tableView"/>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_5">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>100</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_4">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_2">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;Times New Roman&quot;;</string>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
             <widget class="QWidget" name="page_3"/>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="progressBar">
+            <property name="styleSheet">
+             <string notr="true">QProgressBar{
+	background-color: rgb(195, 195, 195);
+	border-radius: 10px;
+	color: black;
+	text-align: center;
+}
+
+QProgressBar::chunk{
+	border-radius: 10px;
+	background-color: 	qlineargradient(spread:pad, x1:1, y1:0.0227273, x2:0, y2:0, stop:0 rgba(0, 131, 0, 255), stop:1 rgba(255, 255, 255, 255))
+
+}</string>
+            </property>
+            <property name="value">
+             <number>24</number>
+            </property>
            </widget>
           </item>
          </layout>
