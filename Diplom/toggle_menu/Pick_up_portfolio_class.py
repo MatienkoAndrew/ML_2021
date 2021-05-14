@@ -95,6 +95,8 @@ class PickUpPortfolio(QMainWindow):
         self.ui.tableView.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tableView.setModel(model)
+
+        self.ui.tableView.setHorizontalHeader()
         pass
 
     def get_company_name(self, symbol):
