@@ -90,6 +90,16 @@ QPushButton:pressed {
       <property name="text">
        <string>Подобрать</string>
       </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../images/robot.png</normaloff>../images/robot.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
      </widget>
     </item>
     <item row="3" column="0" colspan="3">

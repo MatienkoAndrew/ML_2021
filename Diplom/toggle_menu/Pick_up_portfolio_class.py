@@ -47,6 +47,8 @@ class PickUpPortfolio(QMainWindow):
         self.ui = Pick_up_portfolio_window()
         self.ui.setupUi(self)
         self.portfolio = None
+        self.ui.pushButton.setIcon(QtGui.QIcon("images/robot.png"))
+        self.ui.backButton.setIcon(QtGui.QIcon("images/back.png"))
         self.initUI()
 
     def initUI(self):
@@ -72,10 +74,10 @@ class PickUpPortfolio(QMainWindow):
         da = DiscreteAllocation(weights, latest_prices, total_portfolio_value=portfolio_val)
         allocation, leftover = da.greedy_portfolio()  # allocation, leftover = da.lp_portfolio(solver='ECOS_BB')
 
-        self.ui.label_2.setText("Expected annual return: {:.1f}%\n"
-                                "Annual volatility: {:.1f}%\n"
-                                "Sharpe Ratio: {:.2f}\n"
-                                "Funds Remaining: {:.2f}$".format(100 * mu, 100 * sigma, sharpe, leftover))
+        self.ui.label_2.setText("Ожидаемая годовая доходность: {:.1f}%\n"
+                                "Годовая волатильность: {:.1f}%\n"
+                                "Коэффициент Шарпа: {:.2f}\n"
+                                "Остаток средств: {:.2f}$".format(100 * mu, 100 * sigma, sharpe, leftover))
         company_name = []
         for symbol in allocation:
             company_name.append(self.get_company_name(symbol))
@@ -84,19 +86,16 @@ class PickUpPortfolio(QMainWindow):
         for symbol in allocation:
             discrete_allocation_list.append(allocation.get(symbol))
 
-        portfolio_df = pd.DataFrame(columns=['Company_name', 'Company_Ticker', 'Discrete_val_' + str(portfolio_val)])
-
-        portfolio_df['Company_name'] = company_name
-        portfolio_df['Company_Ticker'] = allocation
-        portfolio_df['Discrete_val_' + str(portfolio_val)] = discrete_allocation_list
-        portfolio_df = portfolio_df.sort_values(by='Discrete_val_' + str(portfolio_val), ascending=False)
+        portfolio_df = pd.DataFrame(columns=['Название компании', 'Тикер компании', 'Количество активов'])
+        portfolio_df['Название компании'] = company_name
+        portfolio_df['Тикер компании'] = allocation
+        portfolio_df['Количество активов'] = discrete_allocation_list
+        portfolio_df = portfolio_df.sort_values(by='Количество активов', ascending=False)
 
         model = pandasModel(portfolio_df)
         self.ui.tableView.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tableView.setModel(model)
-
-        self.ui.tableView.setHorizontalHeader()
         pass
 
     def get_company_name(self, symbol):

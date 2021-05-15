@@ -47,6 +47,10 @@ class Ui_MainWindow(object):
 "    background-color: rgb(162, 180, 158);\n"
 "    padding-top: 5px;\n"
 "}")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../images/robot.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton.setIcon(icon)
+        self.pushButton.setIconSize(QtCore.QSize(40, 40))
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 1, 2, 2, 1)
         self.tableView = QtWidgets.QTableView(self.centralwidget)
@@ -70,9 +74,9 @@ class Ui_MainWindow(object):
 "    background-color: rgb(162, 180, 158);\n"
 "    padding-top: 5px;\n"
 "}")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../images/back1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.backButton.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("../images/back1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.backButton.setIcon(icon1)
         self.backButton.setIconSize(QtCore.QSize(60, 60))
         self.backButton.setObjectName("backButton")
         self.gridLayout.addWidget(self.backButton, 5, 0, 1, 3)
