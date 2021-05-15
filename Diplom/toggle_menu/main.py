@@ -112,8 +112,6 @@ class Stocks(QMainWindow):
     #         UIFunctions.toggleMenu(self, 250, True)
 
 
-
-
 '''
 Главное окно
 '''

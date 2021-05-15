@@ -197,9 +197,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.btn_parameters = QtWidgets.QPushButton(self.frame_top_menus)
-        self.btn_parameters.setMinimumSize(QtCore.QSize(0, 40))
-        self.btn_parameters.setStyleSheet("QPushButton {\n"
+        self.btn_page_1 = QtWidgets.QPushButton(self.frame_top_menus)
+        self.btn_page_1.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_page_1.setStyleSheet("QPushButton {\n"
 "    color: rgb(255, 255, 255);\n"
 "    background-color: rgb(35, 35, 35);\n"
 "    border: 0px solid;\n"
@@ -208,12 +208,12 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_parameters.setObjectName("btn_parameters")
-        self.verticalLayout_4.addWidget(self.btn_parameters)
-        self.Btn_page_2 = QtWidgets.QPushButton(self.frame_top_menus)
-        self.Btn_page_2.setMinimumSize(QtCore.QSize(0, 40))
-        self.Btn_page_2.setAutoFillBackground(False)
-        self.Btn_page_2.setStyleSheet("QPushButton {\n"
+        self.btn_page_1.setObjectName("btn_page_1")
+        self.verticalLayout_4.addWidget(self.btn_page_1)
+        self.btn_page_2 = QtWidgets.QPushButton(self.frame_top_menus)
+        self.btn_page_2.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_page_2.setAutoFillBackground(False)
+        self.btn_page_2.setStyleSheet("QPushButton {\n"
 "    color: rgb(255, 255, 255);\n"
 "    background-color: rgb(35, 35, 35);\n"
 "    border: 0px solid;\n"
@@ -225,19 +225,19 @@ class Ui_MainWindow(object):
 "    background-color: rgb(85, 170, 255);\n"
 "    text-overflow: clip;\n"
 "}")
-        self.Btn_page_2.setAutoDefault(False)
-        self.Btn_page_2.setFlat(False)
-        self.Btn_page_2.setObjectName("Btn_page_2")
-        self.verticalLayout_4.addWidget(self.Btn_page_2)
-        self.Btn_page_3 = QtWidgets.QPushButton(self.frame_top_menus)
+        self.btn_page_2.setAutoDefault(False)
+        self.btn_page_2.setFlat(False)
+        self.btn_page_2.setObjectName("btn_page_2")
+        self.verticalLayout_4.addWidget(self.btn_page_2)
+        self.btn_page_3 = QtWidgets.QPushButton(self.frame_top_menus)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Btn_page_3.sizePolicy().hasHeightForWidth())
-        self.Btn_page_3.setSizePolicy(sizePolicy)
-        self.Btn_page_3.setMinimumSize(QtCore.QSize(0, 40))
-        self.Btn_page_3.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.Btn_page_3.setStyleSheet("QPushButton {\n"
+        sizePolicy.setHeightForWidth(self.btn_page_3.sizePolicy().hasHeightForWidth())
+        self.btn_page_3.setSizePolicy(sizePolicy)
+        self.btn_page_3.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_page_3.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.btn_page_3.setStyleSheet("QPushButton {\n"
 "    color: rgb(255, 255, 255);\n"
 "    background-color: rgb(35, 35, 35);\n"
 "    border: 0px solid;\n"
@@ -246,22 +246,9 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    background-color: rgb(85, 170, 255);\n"
 "}")
-        self.Btn_page_3.setCheckable(False)
-        self.Btn_page_3.setObjectName("Btn_page_3")
-        self.verticalLayout_4.addWidget(self.Btn_page_3)
-        self.Btn_page_4 = QtWidgets.QPushButton(self.frame_top_menus)
-        self.Btn_page_4.setMinimumSize(QtCore.QSize(0, 40))
-        self.Btn_page_4.setStyleSheet("QPushButton {\n"
-"    color: rgb(255, 255, 255);\n"
-"    background-color: rgb(35, 35, 35);\n"
-"    border: 0px solid;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(85, 170, 255);\n"
-"}")
-        self.Btn_page_4.setObjectName("Btn_page_4")
-        self.verticalLayout_4.addWidget(self.Btn_page_4)
+        self.btn_page_3.setCheckable(False)
+        self.btn_page_3.setObjectName("btn_page_3")
+        self.verticalLayout_4.addWidget(self.btn_page_3)
         self.verticalLayout_3.addWidget(self.frame_top_menus, 0, QtCore.Qt.AlignTop)
         self.button_back = QtWidgets.QPushButton(self.frame_left_menu)
         self.button_back.setMinimumSize(QtCore.QSize(0, 40))
@@ -452,6 +439,96 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.page_3)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.frame_6 = QtWidgets.QFrame(self.page_3)
+        self.frame_6.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.frame_6.setStyleSheet("background-color: rgb(35, 35, 35);")
+        self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_6.setObjectName("frame_6")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_6)
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_7.setSpacing(0)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.frame_7 = QtWidgets.QFrame(self.frame_6)
+        self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_7.setObjectName("frame_7")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.frame_7)
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_8.setSpacing(0)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.btn_page_4 = QtWidgets.QPushButton(self.frame_7)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_page_4.sizePolicy().hasHeightForWidth())
+        self.btn_page_4.setSizePolicy(sizePolicy)
+        self.btn_page_4.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_page_4.setStyleSheet("QPushButton {\n"
+"    color: rgb(255, 255, 255);\n"
+"    background-color: rgb(35, 35, 35);\n"
+"    border: 0px solid;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(85, 170, 255);\n"
+"}")
+        self.btn_page_4.setObjectName("btn_page_4")
+        self.verticalLayout_8.addWidget(self.btn_page_4)
+        self.btn_page_5 = QtWidgets.QPushButton(self.frame_7)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_page_5.sizePolicy().hasHeightForWidth())
+        self.btn_page_5.setSizePolicy(sizePolicy)
+        self.btn_page_5.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_page_5.setStyleSheet("QPushButton {\n"
+"    color: rgb(255, 255, 255);\n"
+"    background-color: rgb(35, 35, 35);\n"
+"    border: 0px solid;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(85, 170, 255);\n"
+"}")
+        self.btn_page_5.setObjectName("btn_page_5")
+        self.verticalLayout_8.addWidget(self.btn_page_5)
+        self.btn_page_6 = QtWidgets.QPushButton(self.frame_7)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_page_6.sizePolicy().hasHeightForWidth())
+        self.btn_page_6.setSizePolicy(sizePolicy)
+        self.btn_page_6.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_page_6.setStyleSheet("QPushButton {\n"
+"    color: rgb(255, 255, 255);\n"
+"    background-color: rgb(35, 35, 35);\n"
+"    border: 0px solid;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(85, 170, 255);\n"
+"}")
+        self.btn_page_6.setObjectName("btn_page_6")
+        self.verticalLayout_8.addWidget(self.btn_page_6)
+        self.horizontalLayout_7.addWidget(self.frame_7, 0, QtCore.Qt.AlignTop)
+        self.horizontalLayout_6.addWidget(self.frame_6)
+        self.stackedWidget_2 = QtWidgets.QStackedWidget(self.page_3)
+        self.stackedWidget_2.setObjectName("stackedWidget_2")
+        self.page_4 = QtWidgets.QWidget()
+        self.page_4.setObjectName("page_4")
+        self.stackedWidget_2.addWidget(self.page_4)
+        self.page_5 = QtWidgets.QWidget()
+        self.page_5.setObjectName("page_5")
+        self.stackedWidget_2.addWidget(self.page_5)
+        self.page_6 = QtWidgets.QWidget()
+        self.page_6.setObjectName("page_6")
+        self.stackedWidget_2.addWidget(self.page_6)
+        self.horizontalLayout_6.addWidget(self.stackedWidget_2)
         self.stackedWidget.addWidget(self.page_3)
         self.verticalLayout_2.addWidget(self.stackedWidget)
         self.progressBar = QtWidgets.QProgressBar(self.frame_pages)
@@ -487,13 +564,11 @@ class Ui_MainWindow(object):
 "портфеля"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Введите тикер акции"))
         self.btn_add.setText(_translate("MainWindow", "Добавить"))
-        self.btn_parameters.setText(_translate("MainWindow", "Параметры\n"
+        self.btn_page_1.setText(_translate("MainWindow", "Настроить\n"
+"портфель"))
+        self.btn_page_2.setText(_translate("MainWindow", "Параметры\n"
 "портфеля"))
-        self.Btn_page_2.setText(_translate("MainWindow", "Вола\n"
-"тильность"))
-        self.Btn_page_3.setText(_translate("MainWindow", "Простая \n"
-"стратегия"))
-        self.Btn_page_4.setText(_translate("MainWindow", "fbprophet"))
+        self.btn_page_3.setText(_translate("MainWindow", "Графики"))
         self.button_back.setText(_translate("MainWindow", "Вернуться"))
         self.tableWidget.setSortingEnabled(False)
         item = self.tableWidget.horizontalHeaderItem(0)
@@ -502,6 +577,10 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Company name"))
         self.btn_create_portfolio.setText(_translate("MainWindow", "Создать портфель"))
         self.label.setText(_translate("MainWindow", "Money,$:"))
+        self.btn_page_4.setText(_translate("MainWindow", "Прогноз"))
+        self.btn_page_5.setText(_translate("MainWindow", "Риск и\n"
+"Доходность"))
+        self.btn_page_6.setText(_translate("MainWindow", "Тип"))
 
 
 if __name__ == "__main__":

@@ -461,7 +461,7 @@ QPushButton:pressed {
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="btn_parameters">
+              <widget class="QPushButton" name="btn_page_1">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -480,13 +480,13 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Параметры
-портфеля</string>
+                <string>Настроить
+портфель</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Btn_page_2">
+              <widget class="QPushButton" name="btn_page_2">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -511,8 +511,8 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Вола
-тильность</string>
+                <string>Параметры
+портфеля</string>
                </property>
                <property name="autoDefault">
                 <bool>false</bool>
@@ -523,7 +523,7 @@ QPushButton:hover {
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Btn_page_3">
+              <widget class="QPushButton" name="btn_page_3">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -551,35 +551,10 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Простая 
-стратегия</string>
+                <string>Графики</string>
                </property>
                <property name="checkable">
                 <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="Btn_page_4">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>40</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-
-QPushButton:hover {
-	background-color: rgb(85, 170, 255);
-}</string>
-               </property>
-               <property name="text">
-                <string>fbprophet</string>
                </property>
               </widget>
              </item>
@@ -1008,7 +983,186 @@ font: 10pt &quot;Times New Roman&quot;;</string>
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="page_3"/>
+            <widget class="QWidget" name="page_3">
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QFrame" name="frame_6">
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(35, 35, 35);</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item alignment="Qt::AlignTop">
+                  <widget class="QFrame" name="frame_7">
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QPushButton" name="btn_page_4">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>Прогноз</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="btn_page_5">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>Риск и
+Доходность</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="btn_page_6">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+
+QPushButton:hover {
+	background-color: rgb(85, 170, 255);
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>Тип</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QStackedWidget" name="stackedWidget_2">
+                <widget class="QWidget" name="page_4"/>
+                <widget class="QWidget" name="page_5"/>
+                <widget class="QWidget" name="page_6"/>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </widget>
           </item>
           <item>
