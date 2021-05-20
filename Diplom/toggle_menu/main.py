@@ -1,8 +1,7 @@
 from toggle_menu import Ui_MainWindow
 from mainwindow import Ui_MainWindow as Ui_MainWindow_main
 from portfolio import Ui_MainWindow as Portfolio_window
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut
 from ui_functions import *  # PlotStock, PlotVolatility, PlotSimpleStrategy, PlotFBProphet, UIFunctions
 from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWebEngineWidgets
@@ -19,10 +18,10 @@ from Pick_up_portfolio_class import PickUpPortfolio
 
 class Stocks(QMainWindow):
     def __init__(self):
+        from ui_functions import PlotStock, PlotVolatility, PlotSimpleStrategy, PlotFBProphet, UIFunctions
         super(Stocks, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
         self.ui.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.ui.stackedWidget.addWidget(self.ui.browser)
 
@@ -58,10 +57,23 @@ class Stocks(QMainWindow):
         self.ui.Btn_page_2.clicked.connect(lambda: UIFunctions.plot_change_perc(self))
         self.ui.Btn_page_3.clicked.connect(lambda: UIFunctions.plot_simple_strategy(self))
         self.ui.Btn_page_4.clicked.connect(lambda: UIFunctions.plot_fbprophet(self))
+
+        ##-- комбинация клавиш
+        self.shortcut_create = QShortcut(QtGui.QKeySequence("Shift+Return"), self)
+        self.shortcut_create.activated.connect(self.threads_start)
+        self.shortcut_create.activated.connect(lambda: UIFunctions.plot_stock_when_finish_thread(self))
+
+        self.main = None
+        self.ui.btn_back.clicked.connect(self.back)
         # self.show()
 
     ## Запуск всех потоков нажатием кнопки "Find"
     def threads_start(self):
+        if self.ui.lineEdit.text() == '':
+            return
+        if get_company_name(self.ui.lineEdit.text()) is None:
+            QMessageBox.critical(self, "Ошибка ", "Данного тикера не существует", QMessageBox.Ok)
+            return
         self.thread_plot_stock.start()
         self.thread_plot_volatility.start()
         self.thread_simple_strategy.start()
@@ -111,6 +123,13 @@ class Stocks(QMainWindow):
     #     if event.key() == Qt.Key_Enter:
     #         UIFunctions.toggleMenu(self, 250, True)
 
+    def back(self):
+        self.main = MainWindow_main()
+        self.main.setWindowTitle("Stocker")
+        self.main.setWindowIcon(QtGui.QIcon("images\portfolio.png"))
+        self.main.show()
+        self.close()
+
 
 '''
 Главное окно
@@ -135,7 +154,7 @@ class MainWindow_main(QMainWindow):
         self.stock.setWindowTitle("Stocker")
         self.stock.setWindowIcon(QtGui.QIcon("images\portfolio.png"))
         self.stock.show()
-        # self.close()
+        self.close()
 
     def portfolio_fun(self):
         self.portfolio = Portfolio()

@@ -41,6 +41,7 @@ class Portfolio(QMainWindow):
 
     def back(self):
         from main import MainWindow_main
+        from ui_functions import UIFunctions
         self.main = MainWindow_main()
         self.main.setWindowTitle("Stocker")
         self.main.setWindowIcon(QtGui.QIcon("images\portfolio.png"))

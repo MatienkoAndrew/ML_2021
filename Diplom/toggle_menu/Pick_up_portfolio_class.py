@@ -8,7 +8,7 @@ from PyPortfolioOpt.pypfopt.efficient_frontier import EfficientFrontier
 from PyPortfolioOpt.pypfopt import risk_models
 from PyPortfolioOpt.pypfopt import expected_returns
 from PyPortfolioOpt.pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
-
+import numpy as np
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -49,6 +49,7 @@ class PickUpPortfolio(QMainWindow):
         self.portfolio = None
         self.ui.pushButton.setIcon(QtGui.QIcon("images/robot.png"))
         self.ui.backButton.setIcon(QtGui.QIcon("images/back.png"))
+        self.setMinimumWidth(700)
         self.initUI()
 
     def initUI(self):
@@ -56,6 +57,7 @@ class PickUpPortfolio(QMainWindow):
         self.ui.backButton.clicked.connect(self.back)
 
     def get_portfolio(self):
+        # df = pd.read_csv('G:\ML_2021\Diplom\datasets')
         df = pd.read_csv('../datasets/tickers.csv')
         df = df.set_index(pd.DatetimeIndex(df['Date'].values))
         df.drop('Date', axis=1, inplace=True)
@@ -86,11 +88,14 @@ class PickUpPortfolio(QMainWindow):
         for symbol in allocation:
             discrete_allocation_list.append(allocation.get(symbol))
 
-        portfolio_df = pd.DataFrame(columns=['Название компании', 'Тикер компании', 'Количество активов'])
+        portfolio_df = pd.DataFrame(columns=['Название компании', 'Тикер компании', 'Количество',
+                                             'Последняя цена, $', 'Сумма в портфеле, $'])
         portfolio_df['Название компании'] = company_name
         portfolio_df['Тикер компании'] = allocation
-        portfolio_df['Количество активов'] = discrete_allocation_list
-        portfolio_df = portfolio_df.sort_values(by='Количество активов', ascending=False)
+        portfolio_df['Количество'] = discrete_allocation_list
+        portfolio_df['Последняя цена, $'] = np.round(get_latest_prices(df)[allocation].values, 2)
+        portfolio_df['Сумма в портфеле, $'] = np.round(portfolio_df['Последняя цена, $'] * portfolio_df['Количество'], 2)
+        portfolio_df = portfolio_df.sort_values(by='Количество', ascending=False)
 
         model = pandasModel(portfolio_df)
         self.ui.tableView.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)

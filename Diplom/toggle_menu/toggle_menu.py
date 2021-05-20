@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'toggle_menu.ui'
+# Form implementation generated from reading ui file '..\ui\toggle_menu.ui'
 #
 # Created by: PyQt5 UI code generator 5.12.3
 #
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1000, 500)
+        MainWindow.resize(1000, 586)
         MainWindow.setMinimumSize(QtCore.QSize(1000, 500))
         MainWindow.setStyleSheet("background-color: rgb(35, 35, 35);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_toggle.sizePolicy().hasHeightForWidth())
         self.frame_toggle.setSizePolicy(sizePolicy)
-        self.frame_toggle.setMinimumSize(QtCore.QSize(70, 0))
+        self.frame_toggle.setMinimumSize(QtCore.QSize(100, 0))
         self.frame_toggle.setMaximumSize(QtCore.QSize(70, 40))
         self.frame_toggle.setFocusPolicy(QtCore.Qt.NoFocus)
         self.frame_toggle.setLayoutDirection(QtCore.Qt.LeftToRight)
@@ -155,7 +155,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.frame_left_menu = QtWidgets.QFrame(self.Content)
-        self.frame_left_menu.setMinimumSize(QtCore.QSize(70, 0))
+        self.frame_left_menu.setMinimumSize(QtCore.QSize(100, 0))
         self.frame_left_menu.setMaximumSize(QtCore.QSize(70, 16777215))
         self.frame_left_menu.setStyleSheet("background-color: rgb(35, 35, 35);")
         self.frame_left_menu.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -239,12 +239,26 @@ class Ui_MainWindow(object):
         self.Btn_page_4.setObjectName("Btn_page_4")
         self.verticalLayout_4.addWidget(self.Btn_page_4)
         self.verticalLayout_3.addWidget(self.frame_top_menus, 0, QtCore.Qt.AlignTop)
+        self.label_forecast = QtWidgets.QLabel(self.frame_left_menu)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_forecast.sizePolicy().hasHeightForWidth())
+        self.label_forecast.setSizePolicy(sizePolicy)
+        self.label_forecast.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_forecast.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"font: 10pt \"MS Shell Dlg 2\";")
+        self.label_forecast.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.label_forecast.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.label_forecast.setObjectName("label_forecast")
+        self.verticalLayout_3.addWidget(self.label_forecast)
         self.spinBox_fbprophet = QtWidgets.QSpinBox(self.frame_left_menu)
         self.spinBox_fbprophet.setStyleSheet("QSpinBox{\n"
 "    \n"
 "    background-color: rgb(255, 255, 255);\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}")
+        self.spinBox_fbprophet.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.spinBox_fbprophet.setMaximum(1000)
         self.spinBox_fbprophet.setProperty("value", 180)
         self.spinBox_fbprophet.setObjectName("spinBox_fbprophet")
@@ -278,6 +292,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(255, 255, 255);\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}")
+        self.spinBox_long.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.spinBox_long.setMinimum(40)
         self.spinBox_long.setMaximum(250)
         self.spinBox_long.setProperty("value", 100)
@@ -312,6 +327,7 @@ class Ui_MainWindow(object):
 "    background-color: white;\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}")
+        self.spinBox_short.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.spinBox_short.setMinimum(10)
         self.spinBox_short.setMaximum(40)
         self.spinBox_short.setProperty("value", 40)
@@ -325,6 +341,14 @@ class Ui_MainWindow(object):
         self.horizontalSlider_short.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider_short.setObjectName("horizontalSlider_short")
         self.verticalLayout_3.addWidget(self.horizontalSlider_short)
+        self.label_volatility = QtWidgets.QLabel(self.frame_left_menu)
+        self.label_volatility.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.label_volatility.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"font: 10pt \"MS Shell Dlg 2\";")
+        self.label_volatility.setFrameShape(QtWidgets.QFrame.Box)
+        self.label_volatility.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.label_volatility.setObjectName("label_volatility")
+        self.verticalLayout_3.addWidget(self.label_volatility)
         self.comboBox = QtWidgets.QComboBox(self.frame_left_menu)
         self.comboBox.setStyleSheet("/* The container must be positioned relative: */\n"
 "QComboBox {\n"
@@ -336,10 +360,11 @@ class Ui_MainWindow(object):
 "\n"
 "QComboBox select {\n"
 "  display: none; /*hide original SELECT element: */\n"
+"    background-color: rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 ".select-selected {\n"
-"  background-color: DodgerBlue;\n"
+"    background-color: rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 "/* Style the arrow inside the select element: */\n"
@@ -352,12 +377,15 @@ class Ui_MainWindow(object):
 "  height: 0;\n"
 "  border: 6px solid transparent;\n"
 "  border-color: #fff transparent transparent transparent;\n"
+"\n"
+"  background-color: rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 "/* Point the arrow upwards when the select box is open (active): */\n"
 ".select-selected.select-arrow-active:after {\n"
 "  border-color: transparent transparent #fff transparent;\n"
 "  top: 7px;\n"
+"  background-color: rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 "/* style the items (options), including the selected item: */\n"
@@ -367,6 +395,7 @@ class Ui_MainWindow(object):
 "  border: 1px solid transparent;\n"
 "  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;\n"
 "  cursor: pointer;\n"
+"  background-color: rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 "/* Style items (options): */\n"
@@ -377,15 +406,18 @@ class Ui_MainWindow(object):
 "  left: 0;\n"
 "  right: 0;\n"
 "  z-index: 99;\n"
+"  background-color: rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 "/* Hide the items when the select box is closed: */\n"
 ".select-hide {\n"
 "  display: none;\n"
+"  background-color: rgb(255, 255, 255);\n"
 "}\n"
 "\n"
 ".select-items div:hover, .same-as-selected {\n"
 "  background-color: rgba(0, 0, 0, 0.1);\n"
+"  background-color: rgb(255, 255, 255);\n"
 "}")
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
@@ -393,6 +425,28 @@ class Ui_MainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.verticalLayout_3.addWidget(self.comboBox)
+        self.btn_back = QtWidgets.QPushButton(self.frame_left_menu)
+        self.btn_back.setMinimumSize(QtCore.QSize(0, 40))
+        self.btn_back.setStyleSheet("QPushButton {\n"
+"    border: none;\n"
+"    color: #FFF;\n"
+"    background-color: rgb(62, 180, 158);\n"
+"    font: 75 8pt \"MS Shell Dlg 2\";\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    border: 1px solid rgb(48, 50, 62);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(162, 180, 158);\n"
+"    padding-top: 5px;\n"
+"}")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("../images/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_back.setIcon(icon)
+        self.btn_back.setObjectName("btn_back")
+        self.verticalLayout_3.addWidget(self.btn_back)
         self.horizontalLayout_2.addWidget(self.frame_left_menu)
         self.frame_pages = QtWidgets.QFrame(self.Content)
         self.frame_pages.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -432,21 +486,24 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.Btn_Toggle.setText(_translate("MainWindow", "TOGGLE"))
-        self.btnFind.setText(_translate("MainWindow", "Find"))
+        self.Btn_Toggle.setText(_translate("MainWindow", "Акции"))
+        self.btnFind.setText(_translate("MainWindow", "Найти"))
         self.Btn_page_1.setText(_translate("MainWindow", "График"))
         self.Btn_page_2.setText(_translate("MainWindow", "Вола\n"
 "тильность"))
         self.Btn_page_3.setText(_translate("MainWindow", "Простая \n"
 "стратегия"))
-        self.Btn_page_4.setText(_translate("MainWindow", "fbprophet"))
+        self.Btn_page_4.setText(_translate("MainWindow", "Прогноз"))
+        self.label_forecast.setText(_translate("MainWindow", "Дней"))
         self.button_fb.setText(_translate("MainWindow", "OK"))
         self.lineEdit_long.setText(_translate("MainWindow", "Long"))
         self.lineEdit_short.setText(_translate("MainWindow", "Short"))
+        self.label_volatility.setText(_translate("MainWindow", "Месяцев"))
         self.comboBox.setItemText(0, _translate("MainWindow", "1"))
         self.comboBox.setItemText(1, _translate("MainWindow", "3"))
         self.comboBox.setItemText(2, _translate("MainWindow", "6"))
         self.comboBox.setItemText(3, _translate("MainWindow", "12"))
+        self.btn_back.setText(_translate("MainWindow", "Вернуться"))
 
 
 if __name__ == "__main__":

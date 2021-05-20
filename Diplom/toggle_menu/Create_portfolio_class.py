@@ -6,7 +6,7 @@ import pandas as pd
 import requests
 import pandas_datareader as pdr
 import datetime
-
+import numpy as np
 from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt import risk_models
 from pypfopt import expected_returns
@@ -59,7 +59,9 @@ class Create_Portfolio(QMainWindow):
         self.ui.tableWidget.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
+        ##-- Остальное
         self.ui.progressBar.setVisible(False)
+        self.btn_page_1_visible()
         self.initUI()
 
     def initUI(self):
@@ -70,6 +72,10 @@ class Create_Portfolio(QMainWindow):
         self.ui.btn_page_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
         self.ui.btn_page_2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
         self.ui.btn_page_3.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
+
+        self.ui.btn_page_1.clicked.connect(self.btn_page_1_visible)
+        self.ui.btn_page_2.clicked.connect(self.btn_page_2_visible)
+        self.ui.btn_page_3.clicked.connect(self.btn_page_3_visible)
 
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         if event.key() == Qt.Key_Return:
@@ -132,6 +138,9 @@ class Create_Portfolio(QMainWindow):
         ##-- Page 2 <Parameters>
         from Pick_up_portfolio_class import pandasModel
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
+
+        self.btn_page_2_visible()
+
         self.ui.progressBar.setVisible(False)
         self.ui.label_2.setText("Ожидаемая годовая доходность: {:.1f}%\n"
                                 "Годовая волатильность: {:.1f}%\n"
@@ -144,11 +153,15 @@ class Create_Portfolio(QMainWindow):
         discrete_allocation_list = []
         for symbol in allocation:
             discrete_allocation_list.append(allocation.get(symbol))
-        portfolio_df = pd.DataFrame(columns=['Название компании', 'Тикер компании', 'Количество активов'])
+        portfolio_df = pd.DataFrame(columns=['Название компании', 'Тикер компании', 'Количество',
+                                             'Последняя цена, $', 'Сумма в портфеле, $'])
         portfolio_df['Название компании'] = company_name
         portfolio_df['Тикер компании'] = allocation
-        portfolio_df['Количество активов'] = discrete_allocation_list
-        portfolio_df = portfolio_df.sort_values(by='Количество активов', ascending=False)
+        portfolio_df['Количество'] = discrete_allocation_list
+        portfolio_df['Последняя цена, $'] = np.round(get_latest_prices(df)[allocation].values, 2)
+        portfolio_df['Сумма в портфеле, $'] = np.round(portfolio_df['Последняя цена, $'] * portfolio_df['Количество'],
+                                                       2)
+        portfolio_df = portfolio_df.sort_values(by='Количество', ascending=False)
 
         model = pandasModel(portfolio_df)
         self.ui.tableView.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
@@ -169,6 +182,10 @@ class Create_Portfolio(QMainWindow):
         self.ui.btn_page_4.clicked.connect(lambda: self.plot_forecast(portfolio_okama))
         self.ui.btn_page_5.clicked.connect(self.plot_assets)
         self.ui.btn_page_6.clicked.connect(self.plot_transition_map)
+
+        self.ui.btn_page_4.clicked.connect(self.btn_page_4_visible)
+        self.ui.btn_page_5.clicked.connect(self.btn_page_5_visible)
+        self.ui.btn_page_6.clicked.connect(self.btn_page_6_visible)
         # self.plot_forecast(portfolio_okama)
         pass
 
@@ -187,7 +204,7 @@ class Create_Portfolio(QMainWindow):
                 line=dict(width=1.5),
                 name='Historical data'
             ))
-        figure.update_layout(title='Прогнох портфеля', xaxis_title='Период времени', yaxis_title='$')
+        figure.update_layout(title='Прогноз портфеля', xaxis_title='Период времени', yaxis_title='$')
         for percentile in percentiles:
             x, y = [x1, x2], [y_start_value, y_end_values[percentile]]
             if percentile == 50:
@@ -200,6 +217,9 @@ class Create_Portfolio(QMainWindow):
         self.ui.stackedWidget_2.setCurrentWidget(self.ui.browser_page_4)
 
     def plot_transition_map(self):
+        if len(self.all_tickers) < 2:
+            QMessageBox.critical(self, "Ошибка", "Невозможно построить график меньше чем с 2 активами", QMessageBox.Ok)
+            return
         tickers = [ticker + '.US' for ticker in self.all_tickers]
         portfolio = ok.EfficientFrontier(tickers)
         ef = portfolio.ef_points
@@ -212,6 +232,9 @@ class Create_Portfolio(QMainWindow):
         pass
 
     def plot_assets(self, kind: str = "cagr", pct_values=False):
+        if len(self.all_tickers) < 2:
+            QMessageBox.critical(self, "Ошибка", "Невозможно построить график меньше чем с 2 активами", QMessageBox.Ok)
+            return
         tickers = [ticker + '.US' for ticker in self.all_tickers]
         portfolio = ok.Plots(tickers, ccy='USD')
         risks = portfolio.risk_annual
@@ -242,3 +265,70 @@ class Create_Portfolio(QMainWindow):
         self.main.setWindowIcon(QtGui.QIcon("images\portfolio.png"))
         self.main.show()
         self.close()
+
+    def general_button_visible(self):
+        self.ui.btn_page_1.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+        self.ui.btn_page_2.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+        self.ui.btn_page_3.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+
+    def btn_page_1_visible(self):
+        self.general_button_visible()
+        self.ui.btn_page_1.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
+    def btn_page_2_visible(self):
+        self.general_button_visible()
+        self.ui.btn_page_2.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
+    def btn_page_3_visible(self):
+        self.general_button_visible()
+        self.ui.btn_page_3.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
+
+    ##-- Видимость страницы 3 "Графики"
+    def general_page_3_visible(self):
+        self.ui.btn_page_4.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+        self.ui.btn_page_5.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+        self.ui.btn_page_6.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+
+    def btn_page_4_visible(self):
+        self.general_page_3_visible()
+        self.ui.btn_page_4.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
+    def btn_page_5_visible(self):
+        self.general_page_3_visible()
+        self.ui.btn_page_5.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
+    def btn_page_6_visible(self):
+        self.general_page_3_visible()
+        self.ui.btn_page_6.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")

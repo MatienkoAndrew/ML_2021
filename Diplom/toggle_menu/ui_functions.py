@@ -11,10 +11,20 @@ import numpy as np
 from plotly.validators.scatter.marker import SymbolValidator
 import plotly.graph_objects as go
 # from stocker import Stocker
+from PyQt5.QtWidgets import QMessageBox
 
 from PyQt5.QtCore import QThread
 import time
 import fbprophet
+import requests
+
+
+def get_company_name(symbol):
+    url = 'http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=' + symbol + '&region=1&lang=en'
+    result = requests.get(url).json()
+    for r in result['ResultSet']['Result']:
+        if r['symbol'] == symbol:
+            return r['name']
 
 
 class PlotStock(QThread):
@@ -46,9 +56,9 @@ class PlotStock(QThread):
                 name='Adj Close'
             ))
         self.fig_stock.update_layout(
-                title=self.mainwindow.ui.lineEdit.text(),
-                xaxis_title="time",
-                yaxis_title="Price",
+                title=get_company_name(self.mainwindow.ui.lineEdit.text()),
+                # xaxis_title="Время",
+                yaxis_title="Цена, $",
                 font=dict(
                     family="Courier New, monospace",
                     size=18,
@@ -70,15 +80,14 @@ class PlotVolatility(QThread):
                                        start=datetime.datetime(2006, 10, 1),
                                        end=datetime.datetime.now())
             daily_close_px = stock['Adj Close']
-            daily_pct_change = daily_close_px.pct_change()
 
             plot_month = self.mainwindow.ui.comboBox.currentText()
-            quarter_pct_change = daily_pct_change.resample(f'{plot_month}M').mean()
+            quarter_pct_change = daily_close_px.resample(f'{plot_month}M').mean().pct_change() * 100
             self.fig_vol = px.bar(quarter_pct_change)
             self.fig_vol.update_layout(
-                title=self.mainwindow.ui.lineEdit.text(),
-                xaxis_title="time",
-                yaxis_title="pct_change",
+                title=get_company_name(self.mainwindow.ui.lineEdit.text()),
+                # xaxis_title="Время",
+                yaxis_title="Изменение, %",
                 font=dict(
                     family="Courier New, monospace",
                     size=15,
@@ -169,9 +178,9 @@ class PlotSimpleStrategy(QThread):
                         name='sell'
                     ))
                 self.fig_strategy.update_layout(
-                    title=textboxValue + " simple strategy",
-                    xaxis_title='Date',
-                    yaxis_title='Price ($)'
+                    title=get_company_name(textboxValue) + " simple strategy",
+                    # xaxis_title='Время',
+                    yaxis_title='Цена, $'
                 )
             except Exception as e:
                 print(e)
@@ -210,14 +219,14 @@ class PlotFBProphet(QThread):
         future = model.make_future_dataframe(periods=self.days, freq="D")
         future = model.predict(future)
 
-        title = "%s Historical and Predicted Stock Price" % self.mainwindow.ui.lineEdit.text()
+        title = "%s Historical and Predicted Stock Price" % get_company_name(self.mainwindow.ui.lineEdit.text())
 
         ##-- plotly
         self.fig_model = go.Figure([
             go.Scatter(x=stock_history["ds"],
                        y=stock_history["y"],
                        mode="lines", opacity=0.8,
-                       name="Observations", line=dict(width=1.4, color='Black')),
+                       name="Observations", line=dict(width=2, color='Black')),
             go.Scatter(x=future["ds"], y=future["yhat"],
                        name="Modeled", mode="lines", line=dict(width=2.4, color='Green')),
             go.Scatter(name="Upper Bound", x=future["ds"], y=future["yhat_upper"],
@@ -228,8 +237,8 @@ class PlotFBProphet(QThread):
         ])
         self.fig_model.update_layout(
             title=title,
-            xaxis_title="Date",
-            yaxis_title="Price",
+            # xaxis_title="Время",
+            yaxis_title="Цена, $",
             font=dict(
                 family="Courier New, monospace",
                 size=14,
@@ -243,9 +252,9 @@ class UIFunctions(Stocks):
         if enable:
             width = self.ui.frame_left_menu.width()
             maxExtend = maxWidth
-            standard = 70
+            standard = 100
 
-            if width == 70:
+            if width == 100:
                 widthExtended = maxExtend
                 self.ui.Btn_page_2.setText("Волатильность")
                 self.ui.Btn_page_3.setText("Простая стратегия")
@@ -261,34 +270,50 @@ class UIFunctions(Stocks):
             self.animation.start()
 
     def plot_stock_when_finish_thread(self):
+        if self.ui.lineEdit.text() == '':
+            return
         self.thread_plot_stock.finished.connect(lambda: UIFunctions.plot_stock(self))
 
     def plot_stock(self):
+        if self.ui.lineEdit.text() == '':
+            return
         UIFunctions.plot_stock_visible(self)
         self.ui.browser.setHtml(self.thread_plot_stock.fig_stock.to_html(include_plotlyjs='cdn'))
         self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
 
     def plot_change_perc_finish_thread(self):
+        if self.ui.lineEdit.text() == '':
+            return
         self.thread_plot_volatility.finished.connect(lambda: UIFunctions.plot_change_perc(self))
 
     # Изменение цены акций в процентах за квартал
     def plot_change_perc(self):
+        if self.ui.lineEdit.text() == '':
+            return
         UIFunctions.plot_change_perc_visible(self)
         self.ui.browser.setHtml(self.thread_plot_volatility.fig_vol.to_html(include_plotlyjs='cdn'))
         self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
 
     def plot_simple_strategy_finish_thread(self):
+        if self.ui.lineEdit.text() == '':
+            return
         self.thread_simple_strategy.finished.connect(lambda: UIFunctions.plot_simple_strategy(self))
 
     def plot_simple_strategy(self):
+        if self.ui.lineEdit.text() == '':
+            return
         UIFunctions.plot_simple_strategy_visible(self)
         self.ui.browser.setHtml(self.thread_simple_strategy.fig_strategy.to_html(include_plotlyjs='cdn'))
         self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
 
     def plot_fbprophet_finish_thread(self):
+        if self.ui.lineEdit.text() == '':
+            return
         self.thread_plot_fbprophet.finished.connect(lambda: UIFunctions.plot_fbprophet(self))
 
     def plot_fbprophet(self):
+        if self.ui.lineEdit.text() == '':
+            return
         UIFunctions.plot_fbprophet_visible(self)
         self.ui.browser.setHtml(self.thread_plot_fbprophet.fig_model.to_html(include_plotlyjs='cdn'))
         self.ui.stackedWidget.setCurrentWidget(self.ui.browser)
@@ -301,8 +326,38 @@ class UIFunctions(Stocks):
         self.ui.spinBox_short.setVisible(False)
         self.ui.horizontalSlider_short.setVisible(False)
         self.ui.spinBox_fbprophet.setVisible(False)
+        self.ui.label_volatility.setVisible(False)
+        self.ui.label_forecast.setVisible(False)
+        self.ui.button_fb.setVisible(False)
+        self.ui.comboBox.setVisible(False)
+
+        self.ui.Btn_page_1.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+        self.ui.Btn_page_2.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+        self.ui.Btn_page_3.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
+        self.ui.Btn_page_4.setStyleSheet("QPushButton {\n"
+                                         "color: rgb(255, 255, 255);\n"
+                                         "background-color: rgb(35, 35, 35);\n"
+                                         "border: 0px solid;\n}\n"
+                                         "QPushButton:hover {\n"
+                                         "background-color: rgb(85, 170, 255);\n}")
 
     def simple_strategy_utils_visible(self):
+        UIFunctions.simple_strategy_utils_not_visible(self)
         self.ui.lineEdit_long.setVisible(True)
         self.ui.spinBox_long.setVisible(True)
         self.ui.horizontalSlider_long.setVisible(True)
@@ -311,29 +366,26 @@ class UIFunctions(Stocks):
         self.ui.horizontalSlider_short.setVisible(True)
 
     def plot_stock_visible(self):
-        self.ui.comboBox.setVisible(False)
-        self.ui.button_fb.setVisible(False)
         UIFunctions.simple_strategy_utils_not_visible(self)
+        self.ui.Btn_page_1.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
 
     def plot_change_perc_visible(self):
-        self.ui.spinBox_fbprophet.setVisible(False)
-        self.ui.comboBox.setVisible(True)
         UIFunctions.simple_strategy_utils_not_visible(self)
+        self.ui.comboBox.setVisible(True)
+        self.ui.label_volatility.setVisible(True)
+        self.ui.Btn_page_2.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
 
     def plot_simple_strategy_visible(self):
-        self.ui.comboBox.setVisible(False)
-        self.ui.spinBox_fbprophet.setVisible(False)
-        self.ui.button_fb.setVisible(False)
         UIFunctions.simple_strategy_utils_visible(self)
+        self.ui.Btn_page_3.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
 
     def plot_fbprophet_visible(self):
-        self.ui.lineEdit_long.setVisible(False)
-        self.ui.spinBox_long.setVisible(False)
-        self.ui.horizontalSlider_long.setVisible(False)
-        self.ui.lineEdit_short.setVisible(False)
-        self.ui.spinBox_short.setVisible(False)
-        self.ui.horizontalSlider_short.setVisible(False)
-        self.ui.spinBox_fbprophet.setVisible(False)
-        self.ui.comboBox.setVisible(False)
+        UIFunctions.simple_strategy_utils_not_visible(self)
+        self.ui.label_forecast.setVisible(True)
         self.ui.button_fb.setVisible(True)
         self.ui.spinBox_fbprophet.setVisible(True)
+        self.ui.Btn_page_4.setStyleSheet("background-color: rgb(85, 170, 255);"
+                                         "color: white;")
