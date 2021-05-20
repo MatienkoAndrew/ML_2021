@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>500</height>
+    <height>586</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -88,7 +88,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>70</width>
+           <width>100</width>
            <height>0</height>
           </size>
          </property>
@@ -157,7 +157,7 @@
 </string>
             </property>
             <property name="text">
-             <string>TOGGLE</string>
+             <string>Акции</string>
             </property>
            </widget>
           </item>
@@ -312,7 +312,7 @@ QPushButton:pressed {
 }</string>
                </property>
                <property name="text">
-                <string>Find</string>
+                <string>Найти</string>
                </property>
               </widget>
              </item>
@@ -353,7 +353,7 @@ QPushButton:pressed {
         <widget class="QFrame" name="frame_left_menu">
          <property name="minimumSize">
           <size>
-           <width>70</width>
+           <width>100</width>
            <height>0</height>
           </size>
          </property>
@@ -530,11 +530,40 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>fbprophet</string>
+                <string>Прогноз</string>
                </property>
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_forecast">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="text">
+             <string>Дней</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -545,6 +574,9 @@ QPushButton:hover {
 	background-color: rgb(255, 255, 255);
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }</string>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="maximum">
              <number>1000</number>
@@ -606,6 +638,9 @@ QPushButton:hover {
 	background-color: rgb(255, 255, 255);
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }</string>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
              <number>40</number>
@@ -693,6 +728,9 @@ QPushButton:hover {
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }</string>
             </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
             <property name="minimum">
              <number>10</number>
             </property>
@@ -724,6 +762,29 @@ QPushButton:hover {
            </widget>
           </item>
           <item>
+           <widget class="QLabel" name="label_volatility">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Sunken</enum>
+            </property>
+            <property name="text">
+             <string>Месяцев</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QComboBox" name="comboBox">
             <property name="styleSheet">
              <string notr="true">/* The container must be positioned relative: */
@@ -736,10 +797,11 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;
 
 QComboBox select {
   display: none; /*hide original SELECT element: */
+	background-color: rgb(255, 255, 255);
 }
 
 .select-selected {
-  background-color: DodgerBlue;
+	background-color: rgb(255, 255, 255);
 }
 
 /* Style the arrow inside the select element: */
@@ -752,12 +814,15 @@ QComboBox select {
   height: 0;
   border: 6px solid transparent;
   border-color: #fff transparent transparent transparent;
+
+  background-color: rgb(255, 255, 255);
 }
 
 /* Point the arrow upwards when the select box is open (active): */
 .select-selected.select-arrow-active:after {
   border-color: transparent transparent #fff transparent;
   top: 7px;
+  background-color: rgb(255, 255, 255);
 }
 
 /* style the items (options), including the selected item: */
@@ -767,6 +832,7 @@ QComboBox select {
   border: 1px solid transparent;
   border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
   cursor: pointer;
+  background-color: rgb(255, 255, 255);
 }
 
 /* Style items (options): */
@@ -777,15 +843,18 @@ QComboBox select {
   left: 0;
   right: 0;
   z-index: 99;
+  background-color: rgb(255, 255, 255);
 }
 
 /* Hide the items when the select box is closed: */
 .select-hide {
   display: none;
+  background-color: rgb(255, 255, 255);
 }
 
 .select-items div:hover, .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 255, 255);
 }</string>
             </property>
             <item>
@@ -808,6 +877,40 @@ QComboBox select {
               <string>12</string>
              </property>
             </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_back">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	border: none;
+	color: #FFF;
+	background-color: rgb(62, 180, 158);
+	font: 75 8pt &quot;MS Shell Dlg 2&quot;;
+}
+
+QPushButton:hover {
+	border: 1px solid rgb(48, 50, 62);
+}
+
+QPushButton:pressed {
+	background-color: rgb(162, 180, 158);
+	padding-top: 5px;
+}</string>
+            </property>
+            <property name="text">
+             <string>Вернуться</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../images/back.png</normaloff>../images/back.png</iconset>
+            </property>
            </widget>
           </item>
          </layout>
